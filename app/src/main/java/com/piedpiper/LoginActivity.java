@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String userName = ((EditText) findViewById(R.id.username_text_input)).getText().toString();
                 String password = ((EditText) findViewById(R.id.password_text_input)).getText().toString();
-                if (userName.equals("user") && password.equals("password")) {
+                if (userName.equals("user") && password.equals("pass")) {
                     Intent intent = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -40,6 +40,14 @@ public class LoginActivity extends AppCompatActivity {
                             });
                     alertDialog.show();
                 }
+            }
+        });
+
+        Button cancelButton = (Button) findViewById(R.id.cancel_button_id);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent splash = new Intent(getBaseContext(), SplashScreenActivity.class);
+                startActivity(splash);
             }
         });
     }
