@@ -20,6 +20,9 @@
         </activity>
         <activity android:name=".MainActivity">
         </activity>
+        <activity android:name=".RegisterActivity">
+        </activity>
+        <uses-permission android:name="android.permission.INTERNET" />
     </application>
 
 </manifest>

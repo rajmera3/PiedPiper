@@ -29,7 +29,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                Intent intent = new Intent(getBaseContext(), RegisterActivity.class);
                 startActivity(intent);
             }
         });
