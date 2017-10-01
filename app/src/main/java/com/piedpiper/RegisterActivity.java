@@ -79,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
                             alertDialog.setTitle("Register Failed");
-                            alertDialog.setMessage("Please enter a password that is at least 6 characters long");
+                            alertDialog.setMessage("Please enter a valid email and password");
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -89,8 +89,18 @@ public class RegisterActivity extends AppCompatActivity {
                             alertDialog.show();
                             return;
                         } else {
-                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                            finish();
+                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                            alertDialog.setTitle("Successfully Registered");
+                            alertDialog.setMessage("Registered new user!");
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                            finish();
+                                        }
+                                    });
+                            alertDialog.show();
                         }
                     }
                 });
