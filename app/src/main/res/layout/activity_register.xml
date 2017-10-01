@@ -73,7 +73,7 @@
         android:id="@+id/password_text_input"
         android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:inputType="text"
+        android:inputType="textPassword"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         android:layout_marginStart="8dp"

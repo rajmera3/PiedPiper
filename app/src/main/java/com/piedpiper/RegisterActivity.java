@@ -96,7 +96,12 @@ public class RegisterActivity extends AppCompatActivity {
                 });
             }
         });
-
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent splash = new Intent(getBaseContext(), SplashScreenActivity.class);
+                startActivity(splash);
+            }
+        });
 
     }
 }
