@@ -8,14 +8,21 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pbokey on 10/1/17.
@@ -24,8 +31,10 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText inputEmail, inputPassword;
+    private Spinner accountTypeSpinner;
     private Button btnRegister, btnCancel;
     private FirebaseAuth auth;
+    private DatabaseReference database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +42,26 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
         btnRegister = (Button) findViewById(R.id.register_button_id);
         btnCancel = (Button) findViewById(R.id.cancel_button_id);
 
         inputEmail = (EditText) findViewById(R.id.email_text_input);
         inputPassword = (EditText) findViewById(R.id.password_text_input);
 
+        accountTypeSpinner = (Spinner) findViewById(R.id.account_type_spinner);
+
+        /*
+          Set up the adapter to display the allowable majors in the spinner
+         */
+        List<String> spinnerItems = new ArrayList<String>();
+        spinnerItems.add("Admin");
+        spinnerItems.add("User");
+        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, spinnerItems);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        accountTypeSpinner.setAdapter(adapter);
+
+        // register the user on click
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +94,9 @@ public class RegisterActivity extends AppCompatActivity {
                 final String email = inputEmail.getText().toString().trim().toLowerCase();
                 final String password = inputPassword.getText().toString();
 
+                final String accountType = (String) accountTypeSpinner.getSelectedItem();
+
+                // create the user
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -120,13 +146,30 @@ public class RegisterActivity extends AppCompatActivity {
                                 alertDialog.show();
                             }
                         } else {
-                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                            finish();
+                            // add the user's account type to the database
+                            database.child("users").child(auth.getCurrentUser().getUid()).setValue(accountType);
+
+                            // alert that registration was successful
+                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                            alertDialog.setTitle("Successfully Registered");
+                            alertDialog.setMessage("Registered new user!");
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            // go to the main page
+                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                            finish();
+                                        }
+                                    });
+                            alertDialog.show();
                         }
                     }
                 });
             }
         });
+
+        // exit the registration page on cancel
         btnCancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent splash = new Intent(getBaseContext(), SplashScreenActivity.class);
