@@ -61,6 +61,9 @@ public class LoginActivity extends AppCompatActivity {
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
                                 // there was an error
+
+                                //make an error message if you register with the same email
+
                                 AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                                 alertDialog.setTitle("Incorrect Login Information");
                                 alertDialog.setMessage("Please provide correct credentials");

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 /**
  * Created by pbokey on 10/1/17.
@@ -66,8 +68,8 @@ public class RegisterActivity extends AppCompatActivity {
                     alertDialog.show();
                     return;
                 }
-                String email = inputEmail.getText().toString().trim().toLowerCase();
-                String password = inputPassword.getText().toString();
+                final String email = inputEmail.getText().toString().trim().toLowerCase();
+                final String password = inputPassword.getText().toString();
 
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -76,18 +78,47 @@ public class RegisterActivity extends AppCompatActivity {
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
+
+                        // if user registers again with the same email, have error message
                         if (!task.isSuccessful()) {
-                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
-                            alertDialog.setTitle("Register Failed");
-                            alertDialog.setMessage("Please enter a password that is at least 6 characters long");
-                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    });
-                            alertDialog.show();
-                            return;
+                            if (password.length() < 6) {
+                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                                alertDialog.setTitle("Register Failed");
+                                alertDialog.setMessage("Please enter a password that is at least 6 characters long");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
+                                return;
+                            }
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                                alertDialog.setTitle("Register Failed");
+                                alertDialog.setMessage("This email already exists");
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
+                            } catch (Exception e) {
+                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                                alertDialog.setTitle("Register Failed");
+                                alertDialog.setMessage(e.getMessage());
+                                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                alertDialog.show();
+                            }
                         } else {
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             finish();
