@@ -1,10 +1,12 @@
 package com.piedpiper;
 
+import java.io.Serializable;
+
 /**
  * Created by pbokey on 10/9/17.
  */
 
-public class RatSighting {
+public class RatSighting implements Serializable {
 
     private String uniqueKey;
     private String createdDate;

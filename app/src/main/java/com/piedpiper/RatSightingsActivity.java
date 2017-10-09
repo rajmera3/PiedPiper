@@ -1,7 +1,10 @@
 package com.piedpiper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -9,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -24,6 +28,7 @@ public class RatSightingsActivity extends AppCompatActivity {
     private SightingList adapter;
     private DatabaseReference dataRef;
     private List<RatSighting> itemList;
+    Query snap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +36,31 @@ public class RatSightingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ratsightings);
 
         list = (ListView) findViewById(R.id.RatSightingListView);
+        list.setClickable(true);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Object o = list.getItemAtPosition(i);
+                RatSighting curr = (RatSighting) o;
+                Intent sightingDetailView = new Intent(getBaseContext(), SightingDetailView.class);
+                sightingDetailView.putExtra("Sighting", curr);
+                startActivity(sightingDetailView);
+            }
+        });
 
         itemList = new ArrayList<>();
 
         dataRef = FirebaseDatabase.getInstance().getReference("sightings");
+
+        snap = dataRef.limitToFirst(500);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        dataRef.addValueEventListener(new ValueEventListener() {
+
+        snap.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 itemList.clear();
