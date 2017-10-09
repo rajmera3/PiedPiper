@@ -42,5 +42,8 @@ public class SightingDetailView extends AppCompatActivity {
         TextView createDate = (TextView) findViewById(R.id.createdate);
         createDate.setText(sighting.getCreatedDate());
 
+        TextView uniqueID = (TextView) findViewById(R.id.uniqueID);
+        uniqueID.setText(sighting.getUniqueKey());
+
     }
 }

@@ -31,10 +31,10 @@ public class SightingList extends ArrayAdapter<RatSighting> {
 
         View listViewItem = inflater.inflate(R.layout.ratsightings_layout, null, true);
 
-        TextView incidentZip = (TextView) listViewItem.findViewById(R.id.textViewIncidentZip);
+        TextView mainListText = (TextView) listViewItem.findViewById(R.id.mainListText);
 
         RatSighting sighting = sightingList.get(position);
-        incidentZip.setText(sighting.getIncidentZip());
+        mainListText.setText(sighting.getUniqueKey());
 
         return listViewItem;
     }

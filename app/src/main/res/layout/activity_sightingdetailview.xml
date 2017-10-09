@@ -126,4 +126,19 @@
         android:textColor="#2dd847"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unique Key:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/uniqueID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" "
+        android:textColor="#2dd847"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
 </LinearLayout>
