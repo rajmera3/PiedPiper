@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".RegisterActivity">
         </activity>
+        <activity android:name=".RatSightingsActivity">
+        </activity>
         <uses-permission android:name="android.permission.INTERNET" />
     </application>
 

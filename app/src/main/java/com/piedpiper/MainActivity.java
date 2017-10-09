@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference();
 
         Button logoutButton = (Button) findViewById(R.id.logout_button_id);
+        Button ratSighting = (Button) findViewById(R.id.ratlistview_button_id);
+
         logoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 auth.signOut();
@@ -53,14 +55,25 @@ public class MainActivity extends AppCompatActivity {
         };
         auth.addAuthStateListener(authListener);
 
-        // set account type from database
-        database.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                accountType = dataSnapshot.getValue(String.class);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
+        ratSighting.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent ratList = new Intent(getBaseContext(), RatSightingsActivity.class);
+               startActivity(ratList);
+               finish();
+           }
         });
+
+                // set account type from database
+                database.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        accountType = dataSnapshot.getValue(String.class);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
     }
 }
