@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button logoutButton = (Button) findViewById(R.id.logout_button_id);
         Button ratSighting = (Button) findViewById(R.id.ratlistview_button_id);
+        Button addRatSighting = (Button) findViewById(R.id.addratsighting_button_id);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -64,16 +65,25 @@ public class MainActivity extends AppCompatActivity {
            }
         });
 
-                // set account type from database
-                database.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        accountType = dataSnapshot.getValue(String.class);
-                    }
+        addRatSighting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent newSighting = new Intent(getBaseContext(), NewRatSightingActivity.class);
+                startActivity(newSighting);
+                finish();
+            }
+        });
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+        // set account type from database
+        database.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                accountType = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }

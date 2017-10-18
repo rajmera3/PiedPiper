@@ -26,6 +26,8 @@
         </activity>
         <activity android:name=".SightingDetailView">
         </activity>
+        <activity android:name=".NewRatSightingActivity">
+        </activity>
         <uses-permission android:name="android.permission.INTERNET" />
     </application>
 

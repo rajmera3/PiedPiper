@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -74,7 +73,7 @@ public class RatSightingsActivity extends AppCompatActivity {
                     add.setLocationType((String) sightingSnapshot.child("Location Type").getValue());
                     add.setLatitude((String) sightingSnapshot.child("Latitude").getValue());
                     add.setLongitude((String) sightingSnapshot.child("Longitude").getValue());
-                    add.setUniqueKey((String) sightingSnapshot.child("Unique Key").getValue());
+                    add.setUniqueKey(sightingSnapshot.getKey());
                     itemList.add(add);
                 }
                 adapter = new SightingList(RatSightingsActivity.this, itemList);
@@ -83,7 +82,6 @@ public class RatSightingsActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }

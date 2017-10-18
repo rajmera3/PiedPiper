@@ -19,11 +19,11 @@ public class RatSighting implements Serializable {
     private String longitude;
 
     public RatSighting() {
-        this(null, null, null, null, null, null, null, null, null);
+        this(null, null, null, null, null, null, null, null);
     }
 
-    public RatSighting(String uniqueKey, String createdDate, String locationType, String incidentZip, String incidentAddress, String city, String borough, String latitude, String longitude) {
-        this.uniqueKey = uniqueKey;
+    public RatSighting(String createdDate, String locationType, String incidentZip, String incidentAddress, String city, String borough, String latitude, String longitude) {
+//        this.uniqueKey = uniqueKey;
         this.createdDate = createdDate;
         this.locationType = locationType;
         this.incidentZip = incidentZip;
