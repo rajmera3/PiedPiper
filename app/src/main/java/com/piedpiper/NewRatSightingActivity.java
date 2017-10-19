@@ -52,7 +52,9 @@ public class NewRatSightingActivity extends AppCompatActivity{
             public void onClick(View v) {
                 RatSighting newSighting = new RatSighting(createDate.getText().toString(), locationType.getText().toString(), incidentZip.getText().toString(), incidentAddress.getText().toString(), city.getText().toString(), borough.getText().toString(), latitude.getText().toString(), longitude.getText().toString());
                 DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("sightings");
-                dataRef.push().setValue(newSighting);
+                DatabaseReference newRef = dataRef.push();
+                newSighting.setUniqueKey(newRef.getKey());
+                newRef.setValue(newSighting.getMap());
                 Intent splash = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(splash);
             }

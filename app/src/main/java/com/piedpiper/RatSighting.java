@@ -1,6 +1,8 @@
 package com.piedpiper;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by pbokey on 10/9/17.
@@ -104,5 +106,19 @@ public class RatSighting implements Serializable {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public Map<String, Object> getMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("Borough", borough);
+        map.put("City", city);
+        map.put("Created Date", createdDate);
+        map.put("Incident Address", incidentAddress);
+        map.put("Incident Zip", incidentZip);
+        map.put("Latitude", latitude);
+        map.put("Location Type", locationType);
+        map.put("Longitude", longitude);
+        map.put("Unique Key", uniqueKey);
+        return map;
     }
 }

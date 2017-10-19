@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -47,11 +47,11 @@ public class RatSightingsActivity extends AppCompatActivity {
             }
         });
 
-        itemList = new ArrayList<>();
+        itemList = new LinkedList<>();
 
         dataRef = FirebaseDatabase.getInstance().getReference("sightings");
 
-        snap = dataRef.limitToFirst(500);
+        snap = dataRef.limitToLast(500);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class RatSightingsActivity extends AppCompatActivity {
                     add.setLatitude((String) sightingSnapshot.child("Latitude").getValue());
                     add.setLongitude((String) sightingSnapshot.child("Longitude").getValue());
                     add.setUniqueKey(sightingSnapshot.getKey());
-                    itemList.add(add);
+                    itemList.add(0, add);
                 }
                 adapter = new SightingList(RatSightingsActivity.this, itemList);
                 list.setAdapter(adapter);
