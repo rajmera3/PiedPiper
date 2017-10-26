@@ -38,4 +38,5 @@ public class SightingList extends ArrayAdapter<RatSighting> {
 
         return listViewItem;
     }
+
 }

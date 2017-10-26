@@ -68,4 +68,13 @@ public class NewRatSightingActivity extends AppCompatActivity{
             }
         });
     }
+
+
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(getBaseContext(), MainActivity.class));
+        finish();
+
+    }
 }

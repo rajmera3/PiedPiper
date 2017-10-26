@@ -1,6 +1,7 @@
 package com.piedpiper;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -130,5 +131,15 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         this.googleMap = googleMap;
         updateMap();
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.7128, -74.0060), 11.0f));
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(getBaseContext(), MainActivity.class));
+        finish();
+
     }
 }

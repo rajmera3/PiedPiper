@@ -37,4 +37,13 @@ public class RatSightingsActivity extends AppCompatActivity {
         adapter = new SightingList(RatSightingsActivity.this, MainActivity.sightingsList);
         list.setAdapter(adapter);
     }
+
+
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(getBaseContext(), MainActivity.class));
+        finish();
+
+    }
 }
