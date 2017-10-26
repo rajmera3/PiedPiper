@@ -41,7 +41,7 @@ public class NewRatSightingActivity extends AppCompatActivity{
         locationType = (EditText) findViewById(R.id.locationtype);
 
         createDate = (TextView) findViewById(R.id.createdate);
-        createDate.setText(android.text.format.DateFormat.format("MM/dd/yyyy  hh:mm:ss a", new java.util.Date()));
+        createDate.setText(android.text.format.DateFormat.format("MM/dd/yy HH:mm", new java.util.Date()));
 
 //        TextView uniqueID = (TextView) findViewById(R.id.uniqueID);
 //        uniqueID.setText(uniqueKey);

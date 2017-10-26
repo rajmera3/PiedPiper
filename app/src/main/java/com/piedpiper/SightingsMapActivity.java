@@ -1,10 +1,15 @@
 package com.piedpiper;
 
+import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,9 +30,14 @@ import static com.piedpiper.R.id.map;
  * Created by pbokey on 10/9/17.
  */
 
-public class SightingsMapActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class SightingsMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Date start, end;
+    Date start = new Date(2015 - 1900, 1, 1);
+    Date end = new Date(2017 - 1900, 1, 1);
+
+    private DatePickerDialog datePickerDialog;
+
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,13 +50,8 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         mapFragment.getMapAsync(this);
 
         // set default start and end
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.MONTH, Calendar.JANUARY);
-        cal.set(Calendar.YEAR,2017);
-        start = cal.getTime();
-        cal.set(Calendar.MONTH, Calendar.MARCH);
-        cal.set(Calendar.YEAR,2017);
-        end = cal.getTime();
+
+
 
 
         Button setStartButton = (Button) findViewById(R.id.mapstartdate_button_id);
@@ -54,35 +59,76 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
 
         setStartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // new DatePickerDialog
+                DatePickerDialog dialog = new DatePickerDialog(SightingsMapActivity.this,
+                        new mDateSetListener(0), start.getYear() + 1900, start.getMonth(), start.getDate());
+                dialog.show();
             }
         });
         setEndButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // new DatePickerDialog
+                DatePickerDialog dialog = new DatePickerDialog(SightingsMapActivity.this,
+                        new mDateSetListener(1), end.getYear() + 1900, end.getMonth(), end.getDate());
+                dialog.show();
             }
         });
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+    private void updateMap() {
+        googleMap.clear();
         List<RatSighting> sightings = MainActivity.sightingsList;
-        int count = 0;
         for (RatSighting sighting : sightings) {
             Date date;
             try {
-                date = new SimpleDateFormat("MM/dd/yyyy  hh:mm:ss a").parse(sighting.getCreatedDate());
+                date = new SimpleDateFormat("MM/dd/yy HH:mm").parse(sighting.getCreatedDate());
             } catch (ParseException e) {
                 date = new Date();
             }
-            //date.compareTo(start) >= 0 && date.compareTo(end) <= 0
-            if (count++ < 10) {
+            if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
                 // between start and end
-                LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
-                googleMap.addMarker(new MarkerOptions().position(location)
-                        .title(sighting.getUniqueKey()));
+                if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
+                    LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
+                    googleMap.addMarker(new MarkerOptions().position(location)
+                            .title(sighting.getUniqueKey()));
+                }
             }
         }
+    }
+
+
+
+    class mDateSetListener implements DatePickerDialog.OnDateSetListener {
+        int mYear, mMonth, mDay;
+        int date;
+        // if date is 0, then we are updating the start date, else we are updating the end variable
+        public mDateSetListener(int date) {
+            this.date = date;
+        }
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            // getCalender();
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+//            String add = mMonth + "/" + mDay + "/" + mYear + " 00:00:00 0";
+            if (date == 0) {
+                start = new Date(mYear - 1900, mMonth, mDay);
+            } else {
+                end = new Date(mYear - 1900, mMonth, mDay);
+            }
+//            updateMap();
+//            date.setYear(mYear);
+//            date.setMonth(mMonth);
+//            date.setDate(mDay);
+            updateMap();
+        }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        Log.d("BOKEY", "on map ready");
+        this.googleMap = googleMap;
+        updateMap();
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.7128, -74.0060), 11.0f));
     }
 }
