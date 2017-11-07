@@ -95,18 +95,20 @@ public class SightingsGraphActivity extends AppCompatActivity {
         staticLabelsFormatter.setHorizontalLabels(labels);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
         graph.setHorizontalScrollBarEnabled(true);
-        graph.getViewport().setXAxisBoundsManual(true);
+        //graph.getViewport().setXAxisBoundsManual(true);
 
 
         DataPoint[] arr = new DataPoint[labels.length];
-        for (int i = 1; i < labels.length; i++) {
+        for (int i = 1; i < labels.length + 1; i++) {
             arr[i - 1] = new DataPoint(i, points.get(labels[i - 1]) == null ? 0 : points.get(labels[i - 1]));
         }
 
 
-        //GraphView newGraph = (GraphView) findViewById(R.id.graph);
+
+        GraphView newGraph = (GraphView) findViewById(R.id.graph);
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(arr);
-        graph.addSeries(series);
+        newGraph.addSeries(series);
+        graph = newGraph;
     }
 
 
