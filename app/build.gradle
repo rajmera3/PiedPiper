@@ -35,7 +35,10 @@ dependencies {
     compile 'com.google.firebase:firebase-core:9.0.2'
     compile 'com.google.firebase:firebase-database:9.0.2'
     compile 'com.google.android.gms:play-services-maps:9.0.2'
+    //GraphView
+    compile 'com.jjoe64:graphview:4.2.1'
     testCompile 'junit:junit:4.12'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

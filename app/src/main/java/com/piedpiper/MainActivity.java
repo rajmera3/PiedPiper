@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         Button ratSighting = (Button) findViewById(R.id.ratlistview_button_id);
         Button addRatSighting = (Button) findViewById(R.id.addratsighting_button_id);
         Button sightingsMapButton = (Button) findViewById(R.id.sightingsmap_button_id);
+        Button sightingsGraphButton = (Button) findViewById(R.id.sightingsgraph_button_id);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -89,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent sightingsMap = new Intent(getBaseContext(), SightingsMapActivity.class);
                 startActivity(sightingsMap);
+                finish();
+            }
+        });
+
+        sightingsGraphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent sightingsGraph = new Intent(getBaseContext(), SightingsGraphActivity.class);
+                startActivity(sightingsGraph);
                 finish();
             }
         });
