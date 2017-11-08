@@ -94,7 +94,7 @@ public class SightingsGraphActivity extends AppCompatActivity {
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(labels);
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-        graph.setHorizontalScrollBarEnabled(true);
+        //graph.setHorizontalScrollBarEnabled(true);
         //graph.getViewport().setXAxisBoundsManual(true);
 
 

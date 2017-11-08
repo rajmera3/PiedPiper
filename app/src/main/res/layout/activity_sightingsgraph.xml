@@ -36,9 +36,10 @@ tools:context="com.piedpiper.SightingsGraphActivity">
     app:layout_constraintRight_toRightOf="parent" />
 
 <com.jjoe64.graphview.GraphView
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="400dip"
     app:layout_constraintTop_toTopOf="@id/graphstartdate_button_id"
+    app:layout_marginTop="5dp"
     android:id="@+id/graph" />
 
 </android.support.constraint.ConstraintLayout>
