@@ -74,7 +74,9 @@ public class SightingsGraphActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Updates Graph Points
+     */
     private void updateGraph() {
         HashMap<String, Integer> points = new HashMap<>();
         List<String> xLabels = new ArrayList<>();

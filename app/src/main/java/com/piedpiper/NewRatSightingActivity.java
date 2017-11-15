@@ -47,6 +47,10 @@ public class NewRatSightingActivity extends AppCompatActivity{
 //        uniqueID.setText(uniqueKey);
 
 
+        /**
+         * Rahul JUnits
+         *
+         */
         Button add = (Button) findViewById(R.id.addratsighting_button_id);
         add.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
