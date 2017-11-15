@@ -135,8 +135,7 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
 
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(getBaseContext(), MainActivity.class));
         finish();

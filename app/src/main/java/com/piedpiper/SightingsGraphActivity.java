@@ -72,7 +72,7 @@ public class SightingsGraphActivity extends AppCompatActivity {
     }
 
 
-    private void updateGraph() {
+    public void updateGraph() {
         HashMap<String, Integer> points = new HashMap<>();
         List<String> xLabels = new ArrayList<>();
         for (RatSighting sighting : MainActivity.sightingsList) {
