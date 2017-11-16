@@ -57,7 +57,7 @@ public class NewRatSightingActivity extends AppCompatActivity{
                 newSighting.setUniqueKey(newRef.getKey());
                 String key = newRef.getKey();
                 newRef.setValue(newSighting.getMap());
-                
+
                 if (dataRef.child(key) != null) {
                     Log.d("rahul", dataRef.child(key) + "is here");
                 }
