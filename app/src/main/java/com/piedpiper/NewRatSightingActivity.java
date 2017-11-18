@@ -19,37 +19,44 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class NewRatSightingActivity extends AppCompatActivity{
 
-    EditText city, borough, latitude, longitude, incidentAddress, incidentZip, locationType;
-    TextView createDate;
+    private EditText city;
+    private EditText borough;
+    private EditText latitude;
+    private EditText longitude;
+    private EditText incidentAddress;
+    private EditText incidentZip;
+    private EditText locationType;
+    private TextView createDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newratsighting);
 
-        city = (EditText) findViewById(R.id.city);
+        city = findViewById(R.id.city);
 
-        borough = (EditText) findViewById(R.id.borough);
+        borough = findViewById(R.id.borough);
 
-        latitude = (EditText) findViewById(R.id.latitude);
+        latitude = findViewById(R.id.latitude);
 
-        longitude = (EditText) findViewById(R.id.longitude);
+        longitude = findViewById(R.id.longitude);
 
-        incidentAddress = (EditText) findViewById(R.id.incidentaddress);
+        incidentAddress = findViewById(R.id.incidentaddress);
 
-        incidentZip = (EditText) findViewById(R.id.incidentzip);
+        incidentZip = findViewById(R.id.incidentzip);
 
-        locationType = (EditText) findViewById(R.id.locationtype);
+        locationType = findViewById(R.id.locationtype);
 
-        createDate = (TextView) findViewById(R.id.createdate);
+        createDate = findViewById(R.id.createdate);
         createDate.setText(android.text.format.DateFormat.format("MM/dd/yy HH:mm", new java.util.Date()));
 
-//        TextView uniqueID = (TextView) findViewById(R.id.uniqueID);
+//        TextView uniqueID = findViewById(R.id.uniqueID);
 //        uniqueID.setText(uniqueKey);
 
 
-        Button add = (Button) findViewById(R.id.addratsighting_button_id);
+        Button add = findViewById(R.id.addratsighting_button_id);
         add.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 RatSighting newSighting = new RatSighting(createDate.getText().toString(), locationType.getText().toString(), incidentZip.getText().toString(), incidentAddress.getText().toString(), city.getText().toString(), borough.getText().toString(), latitude.getText().toString(), longitude.getText().toString());
                 DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("sightings");
@@ -66,8 +73,9 @@ public class NewRatSightingActivity extends AppCompatActivity{
             }
         });
 
-        Button cancel = (Button) findViewById(R.id.cancelratsighting_button_id);
+        Button cancel = findViewById(R.id.cancelratsighting_button_id);
         cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 Intent splash = new Intent(getBaseContext(), MainActivity.class);
                 startActivity(splash);
@@ -75,7 +83,7 @@ public class NewRatSightingActivity extends AppCompatActivity{
         });
     }
 
-
+    @Override
     public void onBackPressed()
     {
         super.onBackPressed();

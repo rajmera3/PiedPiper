@@ -19,35 +19,36 @@ public class SightingDetailView extends AppCompatActivity {
 
         RatSighting sighting = (RatSighting) getIntent().getSerializableExtra("Sighting");
 
-       TextView city = (TextView) findViewById(R.id.city);
+        TextView city = findViewById(R.id.city);
         city.setText(sighting.getCity());
 
-        TextView borough = (TextView) findViewById(R.id.borough);
+        TextView borough = findViewById(R.id.borough);
         borough.setText(sighting.getBorough());
 
-        TextView latitude = (TextView) findViewById(R.id.latitude);
+        TextView latitude = findViewById(R.id.latitude);
         latitude.setText(sighting.getLatitude());
 
-        TextView longitude = (TextView) findViewById(R.id.longitude);
+        TextView longitude = findViewById(R.id.longitude);
         longitude.setText(sighting.getLongitude());
 
-        TextView incidentAddress = (TextView) findViewById(R.id.incidentaddress);
+        TextView incidentAddress = findViewById(R.id.incidentaddress);
         incidentAddress.setText(sighting.getIncidentAddress());
 
-        TextView incidentZip = (TextView) findViewById(R.id.incidentzip);
+        TextView incidentZip = findViewById(R.id.incidentzip);
         incidentZip.setText(sighting.getIncidentZip());
 
-        TextView locationType = (TextView) findViewById(R.id.locationtype);
+        TextView locationType = findViewById(R.id.locationtype);
         locationType.setText(sighting.getLocationType());
 
-        TextView createDate = (TextView) findViewById(R.id.createdate);
+        TextView createDate = findViewById(R.id.createdate);
         createDate.setText(sighting.getCreatedDate());
 
-        TextView uniqueID = (TextView) findViewById(R.id.uniqueID);
+        TextView uniqueID = findViewById(R.id.uniqueID);
         uniqueID.setText(sighting.getUniqueKey());
 
     }
 
+    @Override
     public void onBackPressed()
     {
         super.onBackPressed();

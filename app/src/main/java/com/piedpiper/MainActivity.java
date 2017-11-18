@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,33 +19,36 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Class for the main activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private String accountType;
     private DatabaseReference database;
-    public static List<RatSighting> sightingsList;
+    public static List<RatSighting> sightingsList = new LinkedList<>();
 //    private DatabaseReference dataRef;
-    public Query snap;
+    private Query snap;
+    private final int SIGHTINGS_LIMIT = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sightingsList = new LinkedList<>();
-
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
 
-        Button logoutButton = (Button) findViewById(R.id.logout_button_id);
-        Button ratSighting = (Button) findViewById(R.id.ratlistview_button_id);
-        Button addRatSighting = (Button) findViewById(R.id.addratsighting_button_id);
-        Button sightingsMapButton = (Button) findViewById(R.id.sightingsmap_button_id);
-        Button sightingsGraphButton = (Button) findViewById(R.id.sightingsgraph_button_id);
+        Button logoutButton = findViewById(R.id.logout_button_id);
+        Button ratSighting = findViewById(R.id.ratlistview_button_id);
+        Button addRatSighting = findViewById(R.id.addratsighting_button_id);
+        Button sightingsMapButton = findViewById(R.id.sightingsmap_button_id);
+        Button sightingsGraphButton = findViewById(R.id.sightingsgraph_button_id);
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 auth.signOut();
             }
@@ -117,30 +119,27 @@ public class MainActivity extends AppCompatActivity {
 
 //        dataRef = database.child("sightings");
 
-        snap = database.child("sightings").limitToLast(500);
+        snap = database.child("sightings").limitToLast(SIGHTINGS_LIMIT);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        Log.d("sunwoo", "started main");
-
         snap.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("sunwoo", "added to list");
                 sightingsList.clear();
                 for(DataSnapshot sightingSnapshot: dataSnapshot.getChildren()) {
-                    RatSighting add = new RatSighting();
-                    add.setCity((String) sightingSnapshot.child("City").getValue());
-                    add.setBorough((String) sightingSnapshot.child("Borough").getValue());
-                    add.setIncidentAddress((String) sightingSnapshot.child("Incident Address").getValue());
-                    add.setIncidentZip((String) sightingSnapshot.child("Incident Zip").getValue());
-                    add.setCreatedDate((String) sightingSnapshot.child("Created Date").getValue());
-                    add.setLocationType((String) sightingSnapshot.child("Location Type").getValue());
-                    add.setLatitude((String) sightingSnapshot.child("Latitude").getValue());
-                    add.setLongitude((String) sightingSnapshot.child("Longitude").getValue());
+                    String city = (String) sightingSnapshot.child("City").getValue();
+                    String borough = (String) sightingSnapshot.child("Borough").getValue();
+                    String incidentAddress = (String) sightingSnapshot.child("Incident Address").getValue();
+                    String incidentZip = (String) sightingSnapshot.child("Incident Zip").getValue();
+                    String createdDate = (String) sightingSnapshot.child("Created Date").getValue();
+                    String locationType = (String) sightingSnapshot.child("Location Type").getValue();
+                    String latitude = (String) sightingSnapshot.child("Latitude").getValue();
+                    String longitude = (String) sightingSnapshot.child("Longitude").getValue();
+                    RatSighting add = new RatSighting(createdDate, locationType, incidentZip, incidentAddress, city, borough, latitude, longitude);
                     add.setUniqueKey(sightingSnapshot.getKey());
                     sightingsList.add(0, add);
                 }

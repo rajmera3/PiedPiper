@@ -38,8 +38,9 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
-        Button loginButton = (Button) findViewById(R.id.login_button_id);
+        Button loginButton = findViewById(R.id.login_button_id);
         loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 String userName = ((EditText) findViewById(R.id.username_text_input)).getText().toString().trim().toLowerCase();
                 String password = ((EditText) findViewById(R.id.password_text_input)).getText().toString();
@@ -69,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                                 alertDialog.setMessage("Please provide correct credentials");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
+                                            @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
@@ -84,8 +86,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Button cancelButton = (Button) findViewById(R.id.cancel_button_id);
+        Button cancelButton = findViewById(R.id.cancel_button_id);
         cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 Intent splash = new Intent(getBaseContext(), SplashScreenActivity.class);
                 startActivity(splash);

@@ -21,7 +21,7 @@ public class RatSightingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ratsightings);
 
-        list = (ListView) findViewById(R.id.RatSightingListView);
+        list = findViewById(R.id.RatSightingListView);
         list.setClickable(true);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -34,11 +34,11 @@ public class RatSightingsActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new SightingList(RatSightingsActivity.this, MainActivity.sightingsList);
+        adapter = new SightingList(RatSightingsActivity.this);
         list.setAdapter(adapter);
     }
 
-
+    @Override
     public void onBackPressed()
     {
         super.onBackPressed();
