@@ -136,7 +136,7 @@ public class SightingsGraphActivity extends AppCompatActivity {
 
 
         DataPoint[] arr = new DataPoint[labels.length];
-        for (int i = 1; i < labels.length + 1; i++) {
+        for (int i = 1; i < (labels.length + 1); i++) {
             arr[i - 1] = new DataPoint(i,
                     (points.get(labels[i - 1]) == null) ? 0 : points.get(labels[i - 1]));
         }
