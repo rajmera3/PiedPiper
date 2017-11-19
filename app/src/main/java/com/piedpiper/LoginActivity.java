@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by pbokey on 9/22/17.
+ * Activity for handling Login
  */
 
 public class LoginActivity extends AppCompatActivity {
@@ -42,19 +43,25 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = ((EditText) findViewById(R.id.username_text_input)).getText().toString().trim().toLowerCase();
-                String password = ((EditText) findViewById(R.id.password_text_input)).getText().toString();
+                String userName =
+                        ((EditText) findViewById(R.id.username_text_input)).getText().toString()
+                                .trim().toLowerCase();
+                String password =
+                        ((EditText) findViewById(R.id.password_text_input)).getText().toString();
                 if (TextUtils.isEmpty(userName)) {
-                    Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter email address!",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Enter password!",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
                 auth.signInWithEmailAndPassword(userName, password)
-                    .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    .addOnCompleteListener(LoginActivity.this,
+                            new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             // If sign in fails, display a message to the user. If sign in succeeds
@@ -65,7 +72,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                 //make an error message if you register with the same email
 
-                                AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                                AlertDialog alertDialog =
+                                        new AlertDialog.Builder(LoginActivity.this).create();
                                 alertDialog.setTitle("Incorrect Login Information");
                                 alertDialog.setMessage("Please provide correct credentials");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",

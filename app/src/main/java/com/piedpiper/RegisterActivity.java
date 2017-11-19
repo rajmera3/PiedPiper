@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Created by pbokey on 10/1/17.
+ * Activity to handle user registration
  */
 
 public class RegisterActivity extends AppCompatActivity {
@@ -32,8 +33,6 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText inputEmail;
     private EditText inputPassword;
     private Spinner accountTypeSpinner;
-    private Button btnRegister;
-    private Button btnCancel;
     private FirebaseAuth auth;
     private DatabaseReference database;
 
@@ -44,8 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
-        btnRegister = findViewById(R.id.register_button_id);
-        btnCancel = findViewById(R.id.cancel_button_id);
+        Button btnRegister = findViewById(R.id.register_button_id);
+        Button btnCancel = findViewById(R.id.cancel_button_id);
 
         inputEmail = findViewById(R.id.email_text_input);
         inputPassword = findViewById(R.id.password_text_input);
@@ -58,7 +57,8 @@ public class RegisterActivity extends AppCompatActivity {
         List<String> spinnerItems = new ArrayList<>();
         spinnerItems.add("Admin");
         spinnerItems.add("User");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, spinnerItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,
+                spinnerItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accountTypeSpinner.setAdapter(adapter);
 
@@ -67,7 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (inputEmail == null) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                    AlertDialog alertDialog =
+                            new AlertDialog.Builder(RegisterActivity.this).create();
                     alertDialog.setTitle("Email is not entered");
                     alertDialog.setMessage("Please enter an email");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -81,9 +82,11 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 if ((inputPassword == null) || (inputPassword.toString().length() < 6)) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                    AlertDialog alertDialog =
+                            new AlertDialog.Builder(RegisterActivity.this).create();
                     alertDialog.setTitle("Password is not entered");
-                    alertDialog.setMessage("Please enter a password that is at least 6 characters long");
+                    alertDialog.setMessage("Please enter a password that is at least 6 " +
+                            "characters long");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -100,7 +103,9 @@ public class RegisterActivity extends AppCompatActivity {
                 final String accountType = (String) accountTypeSpinner.getSelectedItem();
 
                 // create the user
-                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+                auth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(RegisterActivity.this,
+                                new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -111,9 +116,11 @@ public class RegisterActivity extends AppCompatActivity {
                         // if user registers again with the same email, have error message
                         if (!task.isSuccessful()) {
                             if (password.length() < 6) {
-                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                                AlertDialog alertDialog =
+                                        new AlertDialog.Builder(RegisterActivity.this).create();
                                 alertDialog.setTitle("Register Failed");
-                                alertDialog.setMessage("Please enter a password that is at least 6 characters long");
+                                alertDialog.setMessage("Please enter a password that is at " +
+                                        "least 6 characters long");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -127,7 +134,8 @@ public class RegisterActivity extends AppCompatActivity {
                             try {
                                 throw task.getException();
                             } catch (FirebaseAuthUserCollisionException e) {
-                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                                AlertDialog alertDialog =
+                                        new AlertDialog.Builder(RegisterActivity.this).create();
                                 alertDialog.setTitle("Register Failed");
                                 alertDialog.setMessage("This email already exists");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -139,7 +147,8 @@ public class RegisterActivity extends AppCompatActivity {
                                         });
                                 alertDialog.show();
                             } catch (Exception e) {
-                                AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                                AlertDialog alertDialog =
+                                        new AlertDialog.Builder(RegisterActivity.this).create();
                                 alertDialog.setTitle("Register Failed");
                                 alertDialog.setMessage(e.getMessage());
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -153,10 +162,12 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         } else {
                             // add the user's account type to the database
-                            database.child("users").child(auth.getCurrentUser().getUid()).setValue(accountType);
+                            database.child("users").child(auth.getCurrentUser().getUid())
+                                    .setValue(accountType);
 
                             // alert that registration was successful
-                            AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
+                            AlertDialog alertDialog =
+                                    new AlertDialog.Builder(RegisterActivity.this).create();
                             alertDialog.setTitle("Successfully Registered");
                             alertDialog.setMessage("Registered new user!");
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -165,7 +176,8 @@ public class RegisterActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                             // go to the main page
-                                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                                            startActivity(new Intent(RegisterActivity.this,
+                                                    MainActivity.class));
                                             finish();
                                         }
                                     });

@@ -8,6 +8,7 @@ import android.widget.Button;
 
 /**
  * Created by pbokey on 9/25/17.
+ * Start screen for the app
  */
 
 public class SplashScreenActivity extends AppCompatActivity {

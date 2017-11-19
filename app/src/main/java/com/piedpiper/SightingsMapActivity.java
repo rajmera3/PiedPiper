@@ -27,12 +27,14 @@ import static com.piedpiper.R.id.map;
 
 /**
  * Created by pbokey on 10/9/17.
+ * Activity to handle map view of rat sightings
  */
 
 public class SightingsMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    Date start = new Date(2015 - 1900, 1, 1);
-    Date end = new Date(2017 - 1900, 1, 1);
+    private final int offset = 1900;
+    private Date start = new Date(2015 - offset, 1, 1);
+    private Date end = new Date(2017 - offset, 1, 1);
 
     private DatePickerDialog datePickerDialog;
 
@@ -60,7 +62,8 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsMapActivity.this,
-                        new mDateSetListener(0), start.getYear() + 1900, start.getMonth(), start.getDate());
+                        new mDateSetListener(0), start.getYear() + offset, start.getMonth(),
+                        start.getDate());
                 dialog.show();
             }
         });
@@ -68,7 +71,8 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
             @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsMapActivity.this,
-                        new mDateSetListener(1), end.getYear() + 1900, end.getMonth(), end.getDate());
+                        new mDateSetListener(1), end.getYear() + offset, end.getMonth(),
+                        end.getDate());
                 dialog.show();
             }
         });
@@ -80,14 +84,16 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         for (RatSighting sighting : sightings) {
             Date date;
             try {
-                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).parse(sighting.getCreatedDate());
+                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).
+                        parse(sighting.getCreatedDate());
             } catch (ParseException e) {
                 date = new Date();
             }
             if ((date.compareTo(start) >= 0) && (date.compareTo(end) <= 0)) {
                 // between start and end
                 if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
-                    LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
+                    LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()),
+                            Double.parseDouble(sighting.getLongitude()));
                     googleMap.addMarker(new MarkerOptions().position(location)
                             .title(sighting.getUniqueKey()));
                 }
@@ -101,7 +107,7 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         int mYear;
         int mMonth;
         int mDay;
-        int date;
+        final int date;
         // if date is 0, then we are updating the start date, else we are updating the end variable
         public mDateSetListener(int date) {
             this.date = date;
@@ -115,9 +121,9 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
             mDay = dayOfMonth;
 //            String add = mMonth + "/" + mDay + "/" + mYear + " 00:00:00 0";
             if (date == 0) {
-                start = new Date(mYear - 1900, mMonth, mDay);
+                start = new Date(mYear - offset, mMonth, mDay);
             } else {
-                end = new Date(mYear - 1900, mMonth, mDay);
+                end = new Date(mYear - offset, mMonth, mDay);
             }
 //            updateMap();
 //            date.setYear(mYear);
@@ -132,7 +138,8 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         Log.d("BOKEY", "on map ready");
         this.googleMap = googleMap;
         updateMap();
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.7128, -74.0060), 11.0f));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(40.7128, -74.0060),
+                11.0f));
     }
 
 
