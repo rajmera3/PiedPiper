@@ -23,8 +23,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
+import static com.piedpiper.R.id.RatSightingListView;
 import static com.piedpiper.R.id.map;
 
 /**
@@ -74,9 +76,23 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
-    private void updateMap() {
+    public void updateMap() {
         googleMap.clear();
+        List<RatSighting> sightings = getSightings();
+        for (RatSighting sighting: sightings) {
+            if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
+                LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
+                googleMap.addMarker(new MarkerOptions().position(location)
+                        .title(sighting.getUniqueKey()));
+            }
+        }
+
+    }
+
+    // Pranav Bokey - responsible for testing this method
+    public List<RatSighting> getSightings() {
         List<RatSighting> sightings = MainActivity.sightingsList;
+        List<RatSighting> ret = new LinkedList<>();
         for (RatSighting sighting : sightings) {
             Date date;
             try {
@@ -88,12 +104,13 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
                 // between start and end
                 if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
                     LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
-                    googleMap.addMarker(new MarkerOptions().position(location)
-                            .title(sighting.getUniqueKey()));
+                    ret.add(sighting);
                 }
             }
         }
+        return ret;
     }
+
 
 
 
