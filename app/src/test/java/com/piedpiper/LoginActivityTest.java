@@ -1,9 +1,8 @@
 package com.piedpiper;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by rahulajmera on 11/19/17.
@@ -19,5 +18,4 @@ public class LoginActivityTest {
         status = login.login("test@test.com", "testing");
         assertEquals(status, "login");
     }
-
 }

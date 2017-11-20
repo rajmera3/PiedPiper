@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
     /**
-     * Checks if using the app context
+     * Uses the app context
      * @throws Exception exception
      */
     @Test

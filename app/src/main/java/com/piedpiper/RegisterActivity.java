@@ -66,27 +66,14 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (inputEmail == null) {
+                String inputEmailString = (inputEmail == null) ? null : inputEmail.toString();
+                String inputPasswordString = (inputPassword == null) ? null : inputPassword.toString();
+                String[] valid = isValid(inputEmailString, inputPasswordString);
+                if (valid == null) {
                     AlertDialog alertDialog =
                             new AlertDialog.Builder(RegisterActivity.this).create();
-                    alertDialog.setTitle("Email is not entered");
-                    alertDialog.setMessage("Please enter an email");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                    return;
-                }
-                if ((inputPassword == null) || (inputPassword.toString().length() < 6)) {
-                    AlertDialog alertDialog =
-                            new AlertDialog.Builder(RegisterActivity.this).create();
-                    alertDialog.setTitle("Password is not entered");
-                    alertDialog.setMessage("Please enter a password that is at least 6 " +
-                            "characters long");
+                    alertDialog.setTitle(valid[0]);
+                    alertDialog.setMessage(valid[1]);
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -197,5 +184,16 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    String[] isValid(String inputEmail, String inputPassword) {
+        if (inputEmail == null) {
+            return new String[] {"Email is not entered", "Please enter an email"};
+        }
+        if ((inputPassword == null) || (inputPassword.toString().length() < 6)) {
+            return new String[] {"Password is not entered", "Please enter a password that is at least 6 " +
+                    "characters long"};
+        }
+        return null;
     }
 }
