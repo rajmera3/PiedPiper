@@ -6,9 +6,10 @@ import java.util.Map;
 
 /**
  * Created by pbokey on 10/9/17.
+ * Stores rat sighting information
  */
 
-public class RatSighting implements Serializable {
+class RatSighting implements Serializable {
 
     private String uniqueKey;
     private String createdDate;
@@ -38,7 +39,9 @@ public class RatSighting implements Serializable {
      * @param latitude latitude
      * @param longitude longitude
      */
-    public RatSighting(String createdDate, String locationType, String incidentZip, String incidentAddress, String city, String borough, String latitude, String longitude) {
+    public RatSighting(String createdDate, String locationType, String incidentZip,
+                       String incidentAddress, String city, String borough, String latitude,
+                       String longitude) {
 //        this.uniqueKey = uniqueKey;
         this.createdDate = createdDate;
         this.locationType = locationType;

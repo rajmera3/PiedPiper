@@ -9,12 +9,12 @@ import android.widget.ListView;
 
 /**
  * Created by pbokey on 10/9/17.
+ * Activity to handle the rat sighting information displayed
  */
 
 public class RatSightingsActivity extends AppCompatActivity {
 
     private ListView list;
-    private SightingList adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,16 +26,18 @@ public class RatSightingsActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Object o = list.getItemAtPosition(i);
-                RatSighting curr = (RatSighting) o;
+                //Object o = list.getItemAtPosition(i);
+                //RatSighting curr = (RatSighting) o;
+                RatSighting curr = (RatSighting) list.getItemAtPosition(i);
                 Intent sightingDetailView = new Intent(getBaseContext(), SightingDetailView.class);
                 sightingDetailView.putExtra("Sighting", curr);
                 startActivity(sightingDetailView);
             }
         });
 
-        adapter = new SightingList(RatSightingsActivity.this);
-        list.setAdapter(adapter);
+        //SightingList adapter = new SightingList(RatSightingsActivity.this);
+        //list.setAdapter(adapter);
+        list.setAdapter(new SightingList(RatSightingsActivity.this));
     }
 
     @Override

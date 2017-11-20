@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by sy024598 on 10/17/17.
+ * Activity to handle creating a new rat sighting
  */
 
 public class NewRatSightingActivity extends AppCompatActivity{
@@ -48,7 +49,8 @@ public class NewRatSightingActivity extends AppCompatActivity{
         locationType = findViewById(R.id.locationtype);
 
         createDate = findViewById(R.id.createdate);
-        createDate.setText(android.text.format.DateFormat.format("MM/dd/yy HH:mm", new java.util.Date()));
+        createDate.setText(android.text.format.DateFormat.format("MM/dd/yy HH:mm",
+                new java.util.Date()));
 
 //        TextView uniqueID = findViewById(R.id.uniqueID);
 //        uniqueID.setText(uniqueKey);
@@ -58,8 +60,13 @@ public class NewRatSightingActivity extends AppCompatActivity{
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatSighting newSighting = new RatSighting(createDate.getText().toString(), locationType.getText().toString(), incidentZip.getText().toString(), incidentAddress.getText().toString(), city.getText().toString(), borough.getText().toString(), latitude.getText().toString(), longitude.getText().toString());
-                DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference("sightings");
+                RatSighting newSighting = new RatSighting(createDate.getText().toString(),
+                        locationType.getText().toString(), incidentZip.getText().toString(),
+                        incidentAddress.getText().toString(), city.getText().toString(),
+                        borough.getText().toString(), latitude.getText().toString(),
+                        longitude.getText().toString());
+                DatabaseReference dataRef =
+                        FirebaseDatabase.getInstance().getReference("sightings");
                 DatabaseReference newRef = dataRef.push();
                 newSighting.setUniqueKey(newRef.getKey());
                 String key = newRef.getKey();

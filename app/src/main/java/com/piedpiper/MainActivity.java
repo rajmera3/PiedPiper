@@ -26,11 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private String accountType;
-    private DatabaseReference database;
-    public static List<RatSighting> sightingsList = new LinkedList<>();
+    public static final List<RatSighting> sightingsList = new LinkedList<>();
 //    private DatabaseReference dataRef;
     private Query snap;
-    private final int SIGHTINGS_LIMIT = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         Button logoutButton = findViewById(R.id.logout_button_id);
         Button ratSighting = findViewById(R.id.ratlistview_button_id);
@@ -106,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // set account type from database
-        database.child("users").child(auth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("users").child(auth.getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 accountType = dataSnapshot.getValue(String.class);
@@ -119,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        dataRef = database.child("sightings");
 
+        int SIGHTINGS_LIMIT = 500;
         snap = database.child("sightings").limitToLast(SIGHTINGS_LIMIT);
     }
 
@@ -133,13 +133,17 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot sightingSnapshot: dataSnapshot.getChildren()) {
                     String city = (String) sightingSnapshot.child("City").getValue();
                     String borough = (String) sightingSnapshot.child("Borough").getValue();
-                    String incidentAddress = (String) sightingSnapshot.child("Incident Address").getValue();
+                    String incidentAddress =
+                            (String) sightingSnapshot.child("Incident Address").getValue();
                     String incidentZip = (String) sightingSnapshot.child("Incident Zip").getValue();
                     String createdDate = (String) sightingSnapshot.child("Created Date").getValue();
-                    String locationType = (String) sightingSnapshot.child("Location Type").getValue();
+                    String locationType =
+                            (String) sightingSnapshot.child("Location Type").getValue();
                     String latitude = (String) sightingSnapshot.child("Latitude").getValue();
                     String longitude = (String) sightingSnapshot.child("Longitude").getValue();
-                    RatSighting add = new RatSighting(createdDate, locationType, incidentZip, incidentAddress, city, borough, latitude, longitude);
+                    RatSighting add =
+                            new RatSighting(createdDate, locationType, incidentZip,
+                                    incidentAddress, city, borough, latitude, longitude);
                     add.setUniqueKey(sightingSnapshot.getKey());
                     sightingsList.add(0, add);
                 }

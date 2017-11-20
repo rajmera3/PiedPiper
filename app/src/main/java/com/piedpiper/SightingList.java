@@ -13,9 +13,10 @@ import java.util.List;
 
 /**
  * Created by pbokey on 10/9/17.
+ * view for rat sighting list
  */
 
-public class SightingList extends ArrayAdapter<RatSighting> {
+class SightingList extends ArrayAdapter<RatSighting> {
     private final Activity context;
     private final List<RatSighting> sightingList;
 
@@ -31,10 +32,11 @@ public class SightingList extends ArrayAdapter<RatSighting> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View listViewItem = inflater.inflate(R.layout.ratsightings_layout, new LinearLayout(context), true);
+        View listViewItem = inflater.inflate(R.layout.ratsightings_layout,
+                new LinearLayout(context), true);
 
         TextView mainListText = listViewItem.findViewById(R.id.mainListText);
 

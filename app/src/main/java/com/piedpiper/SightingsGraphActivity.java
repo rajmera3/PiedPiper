@@ -29,12 +29,14 @@ import java.util.Locale;
 
 /**
  * Created by taabishkathawala on 11/5/17.
+ * Activity to handle graph information
  */
 
 public class  SightingsGraphActivity extends AppCompatActivity {
 
-    Date start = new Date(2015 - 1900, 1, 1);
-    Date end = new Date(2017 - 1900, 1, 1);
+    private final int offset = 1900;
+    private Date start = new Date(2015 - offset, 1, 1);
+    private Date end = new Date(2017 - offset, 1, 1);
 
     private DatePickerDialog datePickerDialog;
     private GraphView graph;
@@ -63,7 +65,8 @@ public class  SightingsGraphActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsGraphActivity.this,
-                        new mDateSetListener(0), start.getYear() + 1900, start.getMonth(), start.getDate());
+                        new mDateSetListener(0), start.getYear() + offset, start.getMonth(),
+                        start.getDate());
                 dialog.show();
             }
         });
@@ -71,7 +74,8 @@ public class  SightingsGraphActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsGraphActivity.this,
-                        new mDateSetListener(1), end.getYear() + 1900, end.getMonth(), end.getDate());
+                        new mDateSetListener(1), end.getYear() + offset, end.getMonth(),
+                        end.getDate());
                 dialog.show();
             }
         });
@@ -88,12 +92,14 @@ public class  SightingsGraphActivity extends AppCompatActivity {
         for (RatSighting sighting : MainActivity.sightingsList) {
             Date date;
             try {
-                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).parse(sighting.getCreatedDate());
+                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).
+                        parse(sighting.getCreatedDate());
             } catch (ParseException e) {
                 date = new Date();
             }
             if ((date.compareTo(start) >= 0) && (date.compareTo(end) <= 0)) {
-                String x = String.valueOf(date.getYear() + 1900) + "/" + String.valueOf(date.getMonth() + 1);
+                String x = String.valueOf(date.getYear() + offset) + "/" +
+                        String.valueOf(date.getMonth() + 1);
                 if (points.containsKey(x)) {
                     points.put(x, points.get(x) + 1);
                 } else {
@@ -131,15 +137,17 @@ public class  SightingsGraphActivity extends AppCompatActivity {
 
 
         DataPoint[] arr = new DataPoint[labels.length];
-        for (int i = 1; i < labels.length + 1; i++) {
-            arr[i - 1] = new DataPoint(i, (points.get(labels[i - 1]) == null) ? 0 : points.get(labels[i - 1]));
+        for (int i = 1; i < (labels.length + 1); i++) {
+            arr[i - 1] = new DataPoint(i,
+                    (points.get(labels[i - 1]) == null) ? 0 : points.get(labels[i - 1]));
         }
 
 
 
         GraphView newGraph = findViewById(R.id.graph);
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(arr);
-        newGraph.addSeries(series);
+        //BarGraphSeries<DataPoint> series = new BarGraphSeries<>(arr);
+        //newGraph.addSeries(series);
+        newGraph.addSeries(new BarGraphSeries<>(arr));
         graph = newGraph;
     }
 
@@ -148,7 +156,7 @@ public class  SightingsGraphActivity extends AppCompatActivity {
         int mYear;
         int mMonth;
         int mDay;
-        int date;
+        final int date;
         // if date is 0, then we are updating the start date, else we are updating the end variable
         public mDateSetListener(int date) {
             this.date = date;
@@ -162,9 +170,9 @@ public class  SightingsGraphActivity extends AppCompatActivity {
             mDay = dayOfMonth;
 //            String add = mMonth + "/" + mDay + "/" + mYear + " 00:00:00 0";
             if (date == 0) {
-                start = new Date(mYear - 1900, mMonth, mDay);
+                start = new Date(mYear - offset, mMonth, mDay);
             } else {
-                end = new Date(mYear - 1900, mMonth, mDay);
+                end = new Date(mYear - offset, mMonth, mDay);
             }
             updateGraph();
         }

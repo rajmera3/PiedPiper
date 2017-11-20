@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 /**
  * Created by pbokey on 10/9/17.
+ * View to show detailed rat sighting information
  */
 
 public class SightingDetailView extends AppCompatActivity {
