@@ -16,6 +16,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,9 +44,11 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
     private Date start = new Date(2015 - offset, 1, 1);
     private Date end = new Date(2017 - offset, 1, 1);
 
-    private DatePickerDialog datePickerDialog;
 
+    private DatePickerDialog datePickerDialog;
+    private FirebaseAuth auth;
     private GoogleMap googleMap;
+    public static final List<RatSighting> sightingsList = new LinkedList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +84,38 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
                         new mDateSetListener(1), end.getYear() + offset, end.getMonth(),
                         end.getDate());
                 dialog.show();
+            }
+        });
+    }
+
+    private void updateList() {
+        auth = FirebaseAuth.getInstance();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("sightings").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot sightingSnapshot: dataSnapshot.getChildren()) {
+                    String city = (String) sightingSnapshot.child("City").getValue();
+                    String borough = (String) sightingSnapshot.child("Borough").getValue();
+                    String incidentAddress =
+                            (String) sightingSnapshot.child("Incident Address").getValue();
+                    String incidentZip = (String) sightingSnapshot.child("Incident Zip").getValue();
+                    String createdDate = (String) sightingSnapshot.child("Created Date").getValue();
+                    String locationType =
+                            (String) sightingSnapshot.child("Location Type").getValue();
+                    String latitude = (String) sightingSnapshot.child("Latitude").getValue();
+                    String longitude = (String) sightingSnapshot.child("Longitude").getValue();
+                    RatSighting add =
+                            new RatSighting(createdDate, locationType, incidentZip,
+                                    incidentAddress, city, borough, latitude, longitude);
+                    add.setUniqueKey(sightingSnapshot.getKey());
+                    sightingsList.add(0, add);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
@@ -116,7 +156,17 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         return ret;
     }
 
+    public List<RatSighting> getSightingsList() {
+        return sightingsList;
+    }
 
+    public void setStart(Date x) {
+        start = x;
+    }
+
+    public void setEnd(Date x) {
+        end = x;
+    }
 
 
     class mDateSetListener implements DatePickerDialog.OnDateSetListener {
