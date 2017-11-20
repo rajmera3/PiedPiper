@@ -46,13 +46,25 @@ public class UpdateMapTest {
         assertTrue("The list is at least the same size as the original list", compare.size() <= original.size());
     }
 
+    // this tests checks if the sighitngs list is 0 since the selected dates have no sightings
     @Test
     public void testStartDate() throws Exception {
-        Date start = new Date(2015 - 1900, 11, 03);
+        Date start = new Date(2018 - 1900, 11, 03);
         testClass.setStart(start);
-        Date end = new Date(2015 - 1900, 11, 20);
+        Date end = new Date(2018 - 1900, 11, 20);
         testClass.setEnd(end);
         List<RatSighting> compare = testClass.getSightings();
         assertTrue("The date range resulted in the correct sightings", compare.size() == 0);
+    }
+
+    // this test checks that the sightings list is 0, because the end date is before the start date
+    @Test
+    public void testEndDate() throws Exception {
+        Date start = new Date(2015 - 1900, 11, 03);
+        testClass.setStart(start);
+        Date end = new Date(2015 - 1900, 10, 20);
+        testClass.setEnd(end);
+        List<RatSighting> compare = testClass.getSightings();
+        assertTrue("The list should be empty because end date is before start date", compare.size() == 0);
     }
 }

@@ -137,6 +137,15 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
     public List<RatSighting> getSightings() {
         List<RatSighting> sightings = MainActivity.sightingsList;
         List<RatSighting> ret = new LinkedList<>();
+        if (start.compareTo(end) > 0) {
+            return ret;
+        }
+        if (start.getYear() < 2015) {
+            start = new Date(2015 - offset, 1, 1);
+        }
+        if (end.getYear() < 2015) {
+            end = new Date(2015 - offset, 3, 1);
+        }
         for (RatSighting sighting : sightings) {
             Date date;
             try {
