@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by taabishkathawala on 11/5/17.
@@ -86,28 +87,7 @@ public class  SightingsGraphActivity extends AppCompatActivity {
      */
     private void updateGraph() {
 
-        HashMap<String, Integer> points = new HashMap<>();
-        List<String> xLabels = new ArrayList<>();
-        Log.d("sunwoo", "ok really is " + MainActivity.sightingsList.size());
-        for (RatSighting sighting : MainActivity.sightingsList) {
-            Date date;
-            try {
-                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).
-                        parse(sighting.getCreatedDate());
-            } catch (ParseException e) {
-                date = new Date();
-            }
-            if ((date.compareTo(start) >= 0) && (date.compareTo(end) <= 0)) {
-                String x = String.valueOf(date.getYear() + offset) + "/" +
-                        String.valueOf(date.getMonth() + 1);
-                if (points.containsKey(x)) {
-                    points.put(x, points.get(x) + 1);
-                } else {
-                    points.put(x, 1);
-                    xLabels.add(x);
-                }
-            }
-        }
+        Map<String, Integer> points = getSights();
         if (start.compareTo(end) >= 0) {
             // start has to be before end
             AlertDialog alertDialog = new AlertDialog.Builder(SightingsGraphActivity.this).create();
@@ -122,12 +102,12 @@ public class  SightingsGraphActivity extends AppCompatActivity {
                     });
             alertDialog.show();
         }
-        if (xLabels.size() < 2) {
-            xLabels.add("");
-            xLabels.add("");
+        if (points.keySet().size() < 2) {
+            points.put("", 0);
+            points.put("", 0);
         }
-        Log.d("sunwoo", "" + xLabels.size());
-        String[] labels = xLabels.toArray(new String[xLabels.size()]);
+        //Log.d("sunwoo", "" + xLabels.size());
+        String[] labels = points.keySet().toArray(new String[points.keySet().size()]);
         Arrays.sort(labels);
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(labels);
@@ -151,6 +131,28 @@ public class  SightingsGraphActivity extends AppCompatActivity {
         graph = newGraph;
     }
 
+    public Map<String, Integer> getSights() {
+        Map<String, Integer> points = new HashMap<>();
+        for (RatSighting sighting : MainActivity.sightingsList) {
+            Date date;
+            try {
+                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).
+                        parse(sighting.getCreatedDate());
+            } catch (ParseException e) {
+                date = new Date();
+            }
+            if ((date.compareTo(start) >= 0) && (date.compareTo(end) <= 0)) {
+                String x = String.valueOf(date.getYear() + offset) + "/" +
+                        String.valueOf(date.getMonth() + 1);
+                if (points.containsKey(x)) {
+                    points.put(x, points.get(x) + 1);
+                } else {
+                    points.put(x, 1);
+                }
+            }
+        }
+        return points;
+    }
 
     class mDateSetListener implements DatePickerDialog.OnDateSetListener {
         int mYear;
@@ -176,6 +178,13 @@ public class  SightingsGraphActivity extends AppCompatActivity {
             }
             updateGraph();
         }
+    }
+
+    public void setStart(Date x) {
+        start = x;
+    }
+    public void setEnd(Date x) {
+        end = x;
     }
 
     @Override
