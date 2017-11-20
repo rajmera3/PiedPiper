@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,13 +16,17 @@ import java.util.List;
  */
 
 public class SightingList extends ArrayAdapter<RatSighting> {
-    private Activity context;
-    private List<RatSighting> sightingList;
+    private final Activity context;
+    private final List<RatSighting> sightingList;
 
-    public SightingList(Activity context, List<RatSighting> rsList) {
-        super(context, R.layout.activity_ratsightings, rsList);
+    /**
+     * Constructor for sightings list
+     * @param context the context
+     */
+    public SightingList(Activity context) {
+        super(context, R.layout.activity_ratsightings, MainActivity.sightingsList);
         this.context = context;
-        this.sightingList = rsList;
+        this.sightingList = MainActivity.sightingsList;
     }
 
     @NonNull
@@ -29,9 +34,9 @@ public class SightingList extends ArrayAdapter<RatSighting> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View listViewItem = inflater.inflate(R.layout.ratsightings_layout, null, true);
+        View listViewItem = inflater.inflate(R.layout.ratsightings_layout, new LinearLayout(context), true);
 
-        TextView mainListText = (TextView) listViewItem.findViewById(R.id.mainListText);
+        TextView mainListText = listViewItem.findViewById(R.id.mainListText);
 
         RatSighting sighting = sightingList.get(position);
         mainListText.setText(sighting.getUniqueKey());

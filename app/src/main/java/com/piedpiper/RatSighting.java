@@ -20,10 +20,24 @@ public class RatSighting implements Serializable {
     private String latitude;
     private String longitude;
 
+    /**
+     * Null constructor for Rat Sighting
+     */
     public RatSighting() {
         this(null, null, null, null, null, null, null, null);
     }
 
+    /**
+     * Constructor for rat sighting
+     * @param createdDate created date
+     * @param locationType location type
+     * @param incidentZip incident zip
+     * @param incidentAddress incident address
+     * @param city city
+     * @param borough borough
+     * @param latitude latitude
+     * @param longitude longitude
+     */
     public RatSighting(String createdDate, String locationType, String incidentZip, String incidentAddress, String city, String borough, String latitude, String longitude) {
 //        this.uniqueKey = uniqueKey;
         this.createdDate = createdDate;
@@ -110,7 +124,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for unique key
-     * @param uniqueKey
+     * @param uniqueKey unique key
      */
     public void setUniqueKey(String uniqueKey) {
         this.uniqueKey = uniqueKey;
@@ -118,7 +132,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for created date
-     * @param createdDate
+     * @param createdDate created date
      */
     public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
@@ -126,7 +140,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for location type
-     * @param locationType
+     * @param locationType location type
      */
     public void setLocationType(String locationType) {
         this.locationType = locationType;
@@ -134,7 +148,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for incident zip
-     * @param incidentZip
+     * @param incidentZip incident zip
      */
     public void setIncidentZip(String incidentZip) {
         this.incidentZip = incidentZip;
@@ -142,7 +156,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for incident address
-     * @param incidentAddress
+     * @param incidentAddress incident address
      */
     public void setIncidentAddress(String incidentAddress) {
         this.incidentAddress = incidentAddress;
@@ -150,7 +164,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for city
-     * @param city
+     * @param city city
      */
     public void setCity(String city) {
         this.city = city;
@@ -158,7 +172,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for borough
-     * @param borough
+     * @param borough borough
      */
     public void setBorough(String borough) {
         this.borough = borough;
@@ -166,7 +180,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for latitude
-     * @param latitude
+     * @param latitude latitude
      */
     public void setLatitude(String latitude) {
         this.latitude = latitude;
@@ -174,7 +188,7 @@ public class RatSighting implements Serializable {
 
     /**
      * Setter for longitude
-     * @param longitude
+     * @param longitude longitude
      */
     public void setLongitude(String longitude) {
         this.longitude = longitude;

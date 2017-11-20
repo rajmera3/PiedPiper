@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,9 +29,11 @@ import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
+    private EditText inputEmail;
+    private EditText inputPassword;
     private Spinner accountTypeSpinner;
-    private Button btnRegister, btnCancel;
+    private Button btnRegister;
+    private Button btnCancel;
     private FirebaseAuth auth;
     private DatabaseReference database;
 
@@ -43,21 +44,21 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
-        btnRegister = (Button) findViewById(R.id.register_button_id);
-        btnCancel = (Button) findViewById(R.id.cancel_button_id);
+        btnRegister = findViewById(R.id.register_button_id);
+        btnCancel = findViewById(R.id.cancel_button_id);
 
-        inputEmail = (EditText) findViewById(R.id.email_text_input);
-        inputPassword = (EditText) findViewById(R.id.password_text_input);
+        inputEmail = findViewById(R.id.email_text_input);
+        inputPassword = findViewById(R.id.password_text_input);
 
-        accountTypeSpinner = (Spinner) findViewById(R.id.account_type_spinner);
+        accountTypeSpinner = findViewById(R.id.account_type_spinner);
 
         /*
           Set up the adapter to display the allowable majors in the spinner
          */
-        List<String> spinnerItems = new ArrayList<String>();
+        List<String> spinnerItems = new ArrayList<>();
         spinnerItems.add("Admin");
         spinnerItems.add("User");
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, spinnerItems);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item, spinnerItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accountTypeSpinner.setAdapter(adapter);
 
@@ -71,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                     alertDialog.setMessage("Please enter an email");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
@@ -78,12 +80,13 @@ public class RegisterActivity extends AppCompatActivity {
                     alertDialog.show();
                     return;
                 }
-                if (inputPassword == null || inputPassword.toString().length() < 6) {
+                if ((inputPassword == null) || (inputPassword.toString().length() < 6)) {
                     AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
                     alertDialog.setTitle("Password is not entered");
                     alertDialog.setMessage("Please enter a password that is at least 6 characters long");
                     alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                             new DialogInterface.OnClickListener() {
+                                @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                 }
@@ -113,6 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 alertDialog.setMessage("Please enter a password that is at least 6 characters long");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
+                                            @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
@@ -128,6 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 alertDialog.setMessage("This email already exists");
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
+                                            @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
@@ -139,6 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 alertDialog.setMessage(e.getMessage());
                                 alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                         new DialogInterface.OnClickListener() {
+                                            @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 dialog.dismiss();
                                             }
@@ -155,6 +161,7 @@ public class RegisterActivity extends AppCompatActivity {
                             alertDialog.setMessage("Registered new user!");
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                                     new DialogInterface.OnClickListener() {
+                                        @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                             // go to the main page
@@ -171,6 +178,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // exit the registration page on cancel
         btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 Intent splash = new Intent(getBaseContext(), SplashScreenActivity.class);
                 startActivity(splash);

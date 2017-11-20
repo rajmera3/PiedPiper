@@ -25,12 +25,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by taabishkathawala on 11/5/17.
  */
 
-public class SightingsGraphActivity extends AppCompatActivity {
+public class  SightingsGraphActivity extends AppCompatActivity {
 
     Date start = new Date(2015 - 1900, 1, 1);
     Date end = new Date(2017 - 1900, 1, 1);
@@ -44,7 +45,7 @@ public class SightingsGraphActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sightingsgraph);
 
 
-        graph = (GraphView) findViewById(R.id.graph);
+        graph = findViewById(R.id.graph);
         updateGraph();
         graph.getViewport().setScrollable(true);
         graph.getViewport().setXAxisBoundsManual(true);
@@ -55,10 +56,11 @@ public class SightingsGraphActivity extends AppCompatActivity {
 //        graph.getViewport().setMaxX(4);
 
         //set default start and end dates
-        Button setStartButton = (Button) findViewById(R.id.graphstartdate_button_id);
-        Button setEndButton = (Button) findViewById(R.id.graphenddate_button_id);
+        Button setStartButton = findViewById(R.id.graphstartdate_button_id);
+        Button setEndButton = findViewById(R.id.graphenddate_button_id);
 
         setStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsGraphActivity.this,
                         new mDateSetListener(0), start.getYear() + 1900, start.getMonth(), start.getDate());
@@ -66,6 +68,7 @@ public class SightingsGraphActivity extends AppCompatActivity {
             }
         });
         setEndButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsGraphActivity.this,
                         new mDateSetListener(1), end.getYear() + 1900, end.getMonth(), end.getDate());
@@ -74,19 +77,22 @@ public class SightingsGraphActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Updates Graph Points
+     */
+    private void updateGraph() {
 
-    public void updateGraph() {
         HashMap<String, Integer> points = new HashMap<>();
         List<String> xLabels = new ArrayList<>();
         Log.d("sunwoo", "ok really is " + MainActivity.sightingsList.size());
         for (RatSighting sighting : MainActivity.sightingsList) {
             Date date;
             try {
-                date = new SimpleDateFormat("MM/dd/yy HH:mm").parse(sighting.getCreatedDate());
+                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).parse(sighting.getCreatedDate());
             } catch (ParseException e) {
                 date = new Date();
             }
-            if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
+            if ((date.compareTo(start) >= 0) && (date.compareTo(end) <= 0)) {
                 String x = String.valueOf(date.getYear() + 1900) + "/" + String.valueOf(date.getMonth() + 1);
                 if (points.containsKey(x)) {
                     points.put(x, points.get(x) + 1);
@@ -103,6 +109,7 @@ public class SightingsGraphActivity extends AppCompatActivity {
             alertDialog.setMessage("Start date must be before end date");
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
+                        @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                         }
@@ -125,12 +132,12 @@ public class SightingsGraphActivity extends AppCompatActivity {
 
         DataPoint[] arr = new DataPoint[labels.length];
         for (int i = 1; i < labels.length + 1; i++) {
-            arr[i - 1] = new DataPoint(i, points.get(labels[i - 1]) == null ? 0 : points.get(labels[i - 1]));
+            arr[i - 1] = new DataPoint(i, (points.get(labels[i - 1]) == null) ? 0 : points.get(labels[i - 1]));
         }
 
 
 
-        GraphView newGraph = (GraphView) findViewById(R.id.graph);
+        GraphView newGraph = findViewById(R.id.graph);
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(arr);
         newGraph.addSeries(series);
         graph = newGraph;
@@ -138,7 +145,9 @@ public class SightingsGraphActivity extends AppCompatActivity {
 
 
     class mDateSetListener implements DatePickerDialog.OnDateSetListener {
-        int mYear, mMonth, mDay;
+        int mYear;
+        int mMonth;
+        int mDay;
         int date;
         // if date is 0, then we are updating the start date, else we are updating the end variable
         public mDateSetListener(int date) {
@@ -162,8 +171,7 @@ public class SightingsGraphActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         super.onBackPressed();
         startActivity(new Intent(getBaseContext(), MainActivity.class));
         finish();

@@ -2,10 +2,8 @@ package com.piedpiper;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -21,10 +19,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.piedpiper.R.id.RatSightingListView;
 import static com.piedpiper.R.id.map;
@@ -57,10 +55,11 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
 
 
 
-        Button setStartButton = (Button) findViewById(R.id.mapstartdate_button_id);
-        Button setEndButton = (Button) findViewById(R.id.mapenddate_button_id);
+        Button setStartButton = findViewById(R.id.mapstartdate_button_id);
+        Button setEndButton = findViewById(R.id.mapenddate_button_id);
 
         setStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsMapActivity.this,
                         new mDateSetListener(0), start.getYear() + 1900, start.getMonth(), start.getDate());
@@ -68,6 +67,7 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
             }
         });
         setEndButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 DatePickerDialog dialog = new DatePickerDialog(SightingsMapActivity.this,
                         new mDateSetListener(1), end.getYear() + 1900, end.getMonth(), end.getDate());
@@ -96,11 +96,11 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         for (RatSighting sighting : sightings) {
             Date date;
             try {
-                date = new SimpleDateFormat("MM/dd/yy HH:mm").parse(sighting.getCreatedDate());
+                date = new SimpleDateFormat("MM/dd/yy HH:mm", Locale.US).parse(sighting.getCreatedDate());
             } catch (ParseException e) {
                 date = new Date();
             }
-            if (date.compareTo(start) >= 0 && date.compareTo(end) <= 0) {
+            if ((date.compareTo(start) >= 0) && (date.compareTo(end) <= 0)) {
                 // between start and end
                 if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
                     LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
@@ -115,7 +115,9 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
 
 
     class mDateSetListener implements DatePickerDialog.OnDateSetListener {
-        int mYear, mMonth, mDay;
+        int mYear;
+        int mMonth;
+        int mDay;
         int date;
         // if date is 0, then we are updating the start date, else we are updating the end variable
         public mDateSetListener(int date) {
