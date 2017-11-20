@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String inputEmailString = (inputEmail == null) ? null : inputEmail.toString();
                 String inputPasswordString = (inputPassword == null) ? null : inputPassword.toString();
                 String[] valid = isValid(inputEmailString, inputPasswordString);
-                if (valid == null) {
+                if (valid != null) {
                     AlertDialog alertDialog =
                             new AlertDialog.Builder(RegisterActivity.this).create();
                     alertDialog.setTitle(valid[0]);
