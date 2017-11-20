@@ -6,7 +6,6 @@ package com.piedpiper;
         import android.support.annotation.NonNull;
         import android.support.v7.app.AlertDialog;
         import android.support.v7.app.AppCompatActivity;
-        import android.text.TextUtils;
         import android.view.View;
         import android.widget.Button;
         import android.widget.EditText;
@@ -49,18 +48,18 @@ public class LoginActivity extends AppCompatActivity {
                         .toString();
                 String loginAction = login(userName, password);
 
-                if (loginAction.equals("No credentials")) {
+                if ("No credentials".equals(loginAction)) {
                     Toast.makeText(getApplicationContext(), "Enter email address and password!",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                if (loginAction.equals("No username")) {
+                if ("No username".equals(loginAction)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!",
                             Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (loginAction.equals("No password")) {
+                if ("No password".equals(loginAction)) {
                     Toast.makeText(getApplicationContext(), "Enter password!",
                             Toast.LENGTH_SHORT).show();
                     return;
@@ -119,7 +118,8 @@ public class LoginActivity extends AppCompatActivity {
      */
     public String login(String userName, String password) {
 //        if (TextUtils.isEmpty(userName)) {
-//            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(),
+// "Enter email address!", Toast.LENGTH_SHORT).show();
 //            return "No username";
 //        }
 //
@@ -127,15 +127,15 @@ public class LoginActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
 //            return "No password";
 //        }
-        if (userName.equals("") && password.equals("")) {
+        if ("".equals(userName) && "".equals(password)) {
             return "No credentials";
         }
 
-        if (userName.equals("")) {
+        if ("".equals(userName)) {
             return "No username";
         }
 
-        if (password.equals("")) {
+        if ("".equals(password)) {
             return "No password";
         }
         return "login";

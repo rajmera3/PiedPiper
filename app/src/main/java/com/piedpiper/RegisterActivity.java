@@ -67,9 +67,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String inputEmailString = (inputEmail == null) ? null : inputEmail.toString();
-                String inputPasswordString = (inputPassword == null) ? null : inputPassword.toString();
+                String inputPasswordString =
+                        (inputPassword == null) ? null : inputPassword.toString();
                 String[] valid = isValid(inputEmailString, inputPasswordString);
-                if (valid == null) {
+                if (valid != null) {
                     AlertDialog alertDialog =
                             new AlertDialog.Builder(RegisterActivity.this).create();
                     alertDialog.setTitle(valid[0]);
@@ -190,8 +191,9 @@ public class RegisterActivity extends AppCompatActivity {
         if (inputEmail == null) {
             return new String[] {"Email is not entered", "Please enter an email"};
         }
-        if ((inputPassword == null) || (inputPassword.toString().length() < 6)) {
-            return new String[] {"Password is not entered", "Please enter a password that is at least 6 " +
+        if ((inputPassword == null) || (inputPassword.length() < 6)) {
+            return new String[] {"Password is not entered",
+                    "Please enter a password that is at least 6 " +
                     "characters long"};
         }
         return null;
