@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -20,11 +19,9 @@ import com.jjoe64.graphview.series.DataPoint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -39,7 +36,7 @@ public class  SightingsGraphActivity extends AppCompatActivity {
     private Date start = new Date(2015 - offset, 1, 1);
     private Date end = new Date(2017 - offset, 1, 1);
 
-    private DatePickerDialog datePickerDialog;
+    //private DatePickerDialog datePickerDialog;
     private GraphView graph;
 
     @Override
@@ -131,6 +128,10 @@ public class  SightingsGraphActivity extends AppCompatActivity {
         graph = newGraph;
     }
 
+    /**
+     * gets Map of number of rat sightings
+     * @return Map of rat sightings
+     */
     public Map<String, Integer> getSights() {
         Map<String, Integer> points = new HashMap<>();
         for (RatSighting sighting : MainActivity.sightingsList) {
@@ -180,9 +181,18 @@ public class  SightingsGraphActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Sets start date
+     * @param x date to set start date
+     */
     public void setStart(Date x) {
         start = x;
     }
+
+    /**
+     * Sets end date
+     * @param x date to set end date
+     */
     public void setEnd(Date x) {
         end = x;
     }

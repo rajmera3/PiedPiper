@@ -3,21 +3,19 @@ package com.piedpiper;
         import org.junit.Test;
         import java.util.Map;
 
-        import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.database.Query;
 
         import java.util.Date;
         import java.util.LinkedList;
         import java.util.List;
 
-        import static org.junit.Assert.assertFalse;
         import static org.junit.Assert.assertTrue;
 /**
  * Created by taabishkathawala on 11/20/17.
  */
 
 public class UpdateGraphDataTest {
-    SightingsGraphActivity testClass;
+    private SightingsGraphActivity testClass;
     private Query snap;
     public static final List<RatSighting> sightingsList = new LinkedList<>();
 

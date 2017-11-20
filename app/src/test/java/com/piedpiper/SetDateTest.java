@@ -3,7 +3,6 @@ package com.piedpiper;
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Date;

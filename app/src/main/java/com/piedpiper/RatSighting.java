@@ -12,21 +12,21 @@ import java.util.Map;
 class RatSighting implements Serializable {
 
     private String uniqueKey;
-    private String createdDate;
-    private String locationType;
-    private String incidentZip;
-    private String incidentAddress;
-    private String city;
-    private String borough;
-    private String latitude;
-    private String longitude;
+    private final String createdDate;
+    private final String locationType;
+    private final String incidentZip;
+    private final String incidentAddress;
+    private final String city;
+    private final String borough;
+    private final String latitude;
+    private final String longitude;
 
-    /**
-     * Null constructor for Rat Sighting
-     */
-    public RatSighting() {
-        this(null, null, null, null, null, null, null, null);
-    }
+//    /**
+//     * Null constructor for Rat Sighting
+//     */
+//    public RatSighting() {
+//        this(null, null, null, null, null, null, null, null);
+//    }
 
     /**
      * Constructor for rat sighting
@@ -133,69 +133,69 @@ class RatSighting implements Serializable {
         this.uniqueKey = uniqueKey;
     }
 
-    /**
-     * Setter for created date
-     * @param createdDate created date
-     */
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    /**
-     * Setter for location type
-     * @param locationType location type
-     */
-    public void setLocationType(String locationType) {
-        this.locationType = locationType;
-    }
-
-    /**
-     * Setter for incident zip
-     * @param incidentZip incident zip
-     */
-    public void setIncidentZip(String incidentZip) {
-        this.incidentZip = incidentZip;
-    }
-
-    /**
-     * Setter for incident address
-     * @param incidentAddress incident address
-     */
-    public void setIncidentAddress(String incidentAddress) {
-        this.incidentAddress = incidentAddress;
-    }
-
-    /**
-     * Setter for city
-     * @param city city
-     */
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    /**
-     * Setter for borough
-     * @param borough borough
-     */
-    public void setBorough(String borough) {
-        this.borough = borough;
-    }
-
-    /**
-     * Setter for latitude
-     * @param latitude latitude
-     */
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
-     * Setter for longitude
-     * @param longitude longitude
-     */
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
+//    /**
+//     * Setter for created date
+//     * @param createdDate created date
+//     */
+//    public void setCreatedDate(String createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//
+//    /**
+//     * Setter for location type
+//     * @param locationType location type
+//     */
+//    public void setLocationType(String locationType) {
+//        this.locationType = locationType;
+//    }
+//
+//    /**
+//     * Setter for incident zip
+//     * @param incidentZip incident zip
+//     */
+//    public void setIncidentZip(String incidentZip) {
+//        this.incidentZip = incidentZip;
+//    }
+//
+//    /**
+//     * Setter for incident address
+//     * @param incidentAddress incident address
+//     */
+//    public void setIncidentAddress(String incidentAddress) {
+//        this.incidentAddress = incidentAddress;
+//    }
+//
+//    /**
+//     * Setter for city
+//     * @param city city
+//     */
+//    public void setCity(String city) {
+//        this.city = city;
+//    }
+//
+//    /**
+//     * Setter for borough
+//     * @param borough borough
+//     */
+//    public void setBorough(String borough) {
+//        this.borough = borough;
+//    }
+//
+//    /**
+//     * Setter for latitude
+//     * @param latitude latitude
+//     */
+//    public void setLatitude(String latitude) {
+//        this.latitude = latitude;
+//    }
+//
+//    /**
+//     * Setter for longitude
+//     * @param longitude longitude
+//     */
+//    public void setLongitude(String longitude) {
+//        this.longitude = longitude;
+//    }
 
     /**
      * Get map to put in Firebase

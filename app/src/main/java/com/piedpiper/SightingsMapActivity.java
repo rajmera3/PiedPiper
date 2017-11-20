@@ -30,7 +30,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.piedpiper.R.id.RatSightingListView;
 import static com.piedpiper.R.id.map;
 
 /**
@@ -45,10 +44,9 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
     private Date end = new Date(2017 - offset, 1, 1);
 
 
-    private DatePickerDialog datePickerDialog;
-    private FirebaseAuth auth;
+    //private DatePickerDialog datePickerDialog;
     private GoogleMap googleMap;
-    public static final List<RatSighting> sightingsList = new LinkedList<>();
+    private static final List<RatSighting> sightingsList = new LinkedList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +87,7 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
     }
 
     private void updateList() {
-        auth = FirebaseAuth.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         database.child("sightings").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -120,12 +118,13 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
-    public void updateMap() {
+    private void updateMap() {
         googleMap.clear();
         List<RatSighting> sightings = getSightings();
         for (RatSighting sighting: sightings) {
             if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
-                LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
+                LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()),
+                        Double.parseDouble(sighting.getLongitude()));
                 googleMap.addMarker(new MarkerOptions().position(location)
                         .title(sighting.getUniqueKey()));
             }
@@ -134,6 +133,10 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
     }
 
     // Pranav Bokey - responsible for testing this method
+    /**
+     * gets List of number of rat sightings
+     * @return List of rat sightings
+     */
     public List<RatSighting> getSightings() {
         List<RatSighting> sightings = MainActivity.sightingsList;
         List<RatSighting> ret = new LinkedList<>();
@@ -148,7 +151,8 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
             if ((date.compareTo(start) >= 0) && (date.compareTo(end) <= 0)) {
                 // between start and end
                 if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
-                    LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()), Double.parseDouble(sighting.getLongitude()));
+                    //LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()),
+                    //        Double.parseDouble(sighting.getLongitude()));
                     ret.add(sighting);
                 }
             }
@@ -156,14 +160,26 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         return ret;
     }
 
+    /**
+     * gets List of rat sightings
+     * @return List of rat sightings
+     */
     public List<RatSighting> getSightingsList() {
         return sightingsList;
     }
 
+    /**
+     * Sets start date
+     * @param x date to set start date
+     */
     public void setStart(Date x) {
         start = x;
     }
 
+    /**
+     * Sets end date
+     * @param x date to set end date
+     */
     public void setEnd(Date x) {
         end = x;
     }
