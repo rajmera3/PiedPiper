@@ -49,6 +49,12 @@ public class LoginActivity extends AppCompatActivity {
                         .toString();
                 String loginAction = login(userName, password);
 
+                if (loginAction.equals("No credentials")) {
+                    Toast.makeText(getApplicationContext(), "Enter email address and password!",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 if (loginAction.equals("No username")) {
                     Toast.makeText(getApplicationContext(), "Enter email address!",
                             Toast.LENGTH_SHORT).show();
@@ -121,6 +127,9 @@ public class LoginActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
 //            return "No password";
 //        }
+        if (userName.equals("") && password.equals("")) {
+            return "No credentials";
+        }
 
         if (userName.equals("")) {
             return "No username";
