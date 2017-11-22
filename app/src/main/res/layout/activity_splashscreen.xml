@@ -6,30 +6,41 @@
     android:layout_height="match_parent"
     tools:context="com.piedpiper.SplashScreenActivity">
 
+    <ImageView
+        android:layout_width="221dp"
+        android:layout_height="156dp"
+        android:layout_marginBottom="260dp"
+        android:layout_marginLeft="88dp"
+        android:src="@mipmap/piedpiper"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
     <Button
         android:id="@+id/login_button_id"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="176dp"
+        android:layout_marginLeft="88dp"
         android:text="Login"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="16dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="447dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp" />
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
     <Button
         android:id="@+id/register_button_id"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="176dp"
+        android:layout_marginLeft="208dp"
         android:text="Register"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="16dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="382dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="16dp" />
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1" />
 
 </android.support.constraint.ConstraintLayout>

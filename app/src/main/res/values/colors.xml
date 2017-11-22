@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#306e68</color>
     <color name="colorAccent">#FF4081</color>
     <color name="horizontal_line_fill_color">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="red">#d10000</color>
 </resources>
