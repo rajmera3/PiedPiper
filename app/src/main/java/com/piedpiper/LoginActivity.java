@@ -15,6 +15,15 @@ package com.piedpiper;
         import com.google.android.gms.tasks.Task;
         import com.google.firebase.auth.AuthResult;
         import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
+        import com.google.firebase.database.ValueEventListener;
+
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
 
 /**
  * Created by pbokey on 9/22/17.
@@ -32,7 +41,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
-
+        final DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference success = dataRef.child("logging").child("success");
+        final DatabaseReference failure = dataRef.child("logging").child("failure");
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
@@ -42,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userName = ((EditText) findViewById(R.id.username_text_input)).getText()
+                final String userName = ((EditText) findViewById(R.id.username_text_input)).getText()
                         .toString().trim().toLowerCase();
                 String password = ((EditText) findViewById(R.id.password_text_input)).getText()
                         .toString();
@@ -64,7 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-
+                    final SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                    final String format = s.format(new Date());
                     auth.signInWithEmailAndPassword(userName, password)
                             .addOnCompleteListener(LoginActivity.this,
                                     new OnCompleteListener<AuthResult>() {
@@ -75,6 +87,24 @@ public class LoginActivity extends AppCompatActivity {
                             // signed in user can be handled in the listener.
                             if (!task.isSuccessful()) {
                                 // there was an error
+                                // this block of code is supposed to sign in to the database anonomously and
+                                // then update the failure child in the logging table with a new row
+                                // however I cannot get this to work for some reason
+                                //TODO: Fix this method to update the logigng table with a failure
+                                auth.signInAnonymously()
+                                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Sign in success, update UI with the signed-in user's information
+                                                    failure.child(userName).push().setValue("LOGIN FAILED: " + format);
+                                                    auth.signOut();
+                                                } else {
+                                                    // If sign in fails, display a message to the user.
+                                                    auth.signOut();
+                                                }
+                                            }
+                                        });
 
                                 //make an error message if you register with the same email
 
@@ -91,6 +121,10 @@ public class LoginActivity extends AppCompatActivity {
                                         });
                                 alertDialog.show();
                             } else {
+
+                                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                                String uid = currentUser.getUid();
+                                success.child(uid).push().setValue("LOGIN SUCCESSFUL: " + format);
                                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();
