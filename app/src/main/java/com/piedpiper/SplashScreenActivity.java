@@ -64,6 +64,8 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
         });
 
+
+
         firebaseAuth = FirebaseAuth.getInstance();
         btnLoginFacebook = (LoginButton) findViewById(R.id.facebook_button);
         callbackManager = CallbackManager.Factory.create();

@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
-
         final Button loginButton = findViewById(R.id.login_button_id);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
                                         });
 
                                 //make an error message if you register with the same email
-
                                 AlertDialog alertDialog =
                                         new AlertDialog.Builder(LoginActivity.this).create();
                                 alertDialog.setTitle("Incorrect Login Information");

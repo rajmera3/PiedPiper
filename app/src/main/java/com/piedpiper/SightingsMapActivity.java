@@ -90,7 +90,7 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         googleMap.clear();
         List<RatSighting> sightings = getSightings();
         for (RatSighting sighting: sightings) {
-            if (!(sighting.getLongitude().isEmpty() || sighting.getLatitude().isEmpty())) {
+            if (!(sighting.getLongitude().equals(" ") || sighting.getLatitude().equals(" "))) {
                 LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()),
                         Double.parseDouble(sighting.getLongitude()));
                 googleMap.addMarker(new MarkerOptions().position(location)
