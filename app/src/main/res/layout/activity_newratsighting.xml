@@ -140,7 +140,10 @@
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:background="@color/red"
+        />
 
     <Button
         android:id="@+id/addratsighting_button_id"
@@ -152,6 +155,8 @@
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
         android:layout_marginTop="8dp" />
 
     </LinearLayout>

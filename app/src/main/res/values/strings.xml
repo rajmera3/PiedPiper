@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PiedPiper</string>
+    <string name="facebook_app_id">372809789798155</string>
+    <string name="fb_login_protocol_scheme">fb372809789798155</string>
 </resources>

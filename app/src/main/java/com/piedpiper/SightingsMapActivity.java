@@ -86,38 +86,6 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         });
     }
 
-    private void updateList() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("sightings").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot sightingSnapshot: dataSnapshot.getChildren()) {
-                    String city = (String) sightingSnapshot.child("City").getValue();
-                    String borough = (String) sightingSnapshot.child("Borough").getValue();
-                    String incidentAddress =
-                            (String) sightingSnapshot.child("Incident Address").getValue();
-                    String incidentZip = (String) sightingSnapshot.child("Incident Zip").getValue();
-                    String createdDate = (String) sightingSnapshot.child("Created Date").getValue();
-                    String locationType =
-                            (String) sightingSnapshot.child("Location Type").getValue();
-                    String latitude = (String) sightingSnapshot.child("Latitude").getValue();
-                    String longitude = (String) sightingSnapshot.child("Longitude").getValue();
-                    RatSighting add =
-                            new RatSighting(createdDate, locationType, incidentZip,
-                                    incidentAddress, city, borough, latitude, longitude);
-                    add.setUniqueKey(sightingSnapshot.getKey());
-                    sightingsList.add(0, add);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
     private void updateMap() {
         googleMap.clear();
         List<RatSighting> sightings = getSightings();
@@ -132,7 +100,6 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
 
     }
 
-    // Pranav Bokey - responsible for testing this method
     /**
      * gets List of number of rat sightings
      * @return List of rat sightings
@@ -142,12 +109,6 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
         List<RatSighting> ret = new LinkedList<>();
         if (start.compareTo(end) > 0) {
             return ret;
-        }
-        if (start.getYear() < 2015) {
-            start = new Date(2015 - offset, 1, 1);
-        }
-        if (end.getYear() < 2015) {
-            end = new Date(2015 - offset, 3, 1);
         }
         for (RatSighting sighting : sightings) {
             Date date;
