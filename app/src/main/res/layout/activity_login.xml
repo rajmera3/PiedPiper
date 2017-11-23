@@ -120,5 +120,4 @@
         android:background="@color/red"
         />
 
-
 </android.support.constraint.ConstraintLayout>
