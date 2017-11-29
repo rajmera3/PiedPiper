@@ -35,10 +35,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.google.code.gson:gson:2.8.2'
-    compile "com.google.firebase:firebase-auth:9.0.2"
-    compile 'com.google.firebase:firebase-core:9.0.2'
-    compile 'com.google.firebase:firebase-database:9.0.2'
-    compile 'com.google.android.gms:play-services-maps:9.0.2'
+    compile "com.google.firebase:firebase-auth:11.4.0"
+    compile 'com.google.firebase:firebase-core:11.4.0'
+    compile 'com.google.firebase:firebase-database:11.4.0'
+    compile 'com.google.android.gms:play-services-maps:11.4.0'
+    compile 'com.google.android.gms:play-services-location:11.4.0'
     //GraphView
     compile 'com.jjoe64:graphview:4.2.1'
     testCompile 'junit:junit:4.12'
