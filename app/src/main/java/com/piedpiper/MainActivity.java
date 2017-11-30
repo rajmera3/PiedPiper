@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static final List<RatSighting> sightingsList = new LinkedList<>();
 //    private DatabaseReference dataRef;
     private Query snap;
+    private static int SIGHTINGS_LIMIT = 500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +146,13 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
-        snap.addValueEventListener(new ValueEventListener() {
+        updateSightingList();
+
+    }
+
+    public static void updateSightingList() {
+       Query snapStatic = FirebaseDatabase.getInstance().getReference().child("sightings").limitToLast(SIGHTINGS_LIMIT);
+        snapStatic.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 sightingsList.clear();

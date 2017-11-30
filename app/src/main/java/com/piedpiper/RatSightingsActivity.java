@@ -20,7 +20,7 @@ public class RatSightingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ratsightings);
-
+        MainActivity.updateSightingList();
         list = findViewById(R.id.RatSightingListView);
         list.setClickable(true);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
