@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
 
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
         Button logoutButton = findViewById(R.id.logout_button_id);
         Button ratSighting = findViewById(R.id.ratlistview_button_id);
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getBaseContext(), "Logged out of App", Toast.LENGTH_SHORT).show();
                 }
+                final SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                final String format = s.format(new Date());
+                database.child("logging").child("logout").child(auth.getCurrentUser().getUid()).setValue("LOGOUT SUCCESSFUL: " + format);
                 auth.signOut();
                 Intent splash = new Intent(getBaseContext(), SplashScreenActivity.class);
                 startActivity(splash);
