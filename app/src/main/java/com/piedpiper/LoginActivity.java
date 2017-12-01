@@ -38,8 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         final DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference();
-        final DatabaseReference success = dataRef.child("logging").child("success");
-        final DatabaseReference failure = dataRef.child("logging").child("failure");
+        final DatabaseReference log = dataRef.child("log");
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    final SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+                    final SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                     final String format = s.format(new Date());
                     auth.signInWithEmailAndPassword(userName, password)
                             .addOnCompleteListener(LoginActivity.this,
@@ -80,12 +79,13 @@ public class LoginActivity extends AppCompatActivity {
                             // If sign in fails, display a message to the user. If sign in succeeds
                             // the auth state listener will be notified and logic to handle the
                             // signed in user can be handled in the listener.
+                            String name = userName.split("@")[0];
                             if (!task.isSuccessful()) {
                                 // there was an error
                                 // this block of code is supposed to sign in to the database anonomously and
                                 // then update the failure child in the logging table with a new row
                                 // however I cannot get this to work for some reason
-                                failure.child(userName).push().setValue("LOGIN FAILED: " + format);
+                                log.child(format).setValue(name + ": login failed");
 
                                 //make an error message if you register with the same email
                                 AlertDialog alertDialog =
@@ -101,10 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                                         });
                                 alertDialog.show();
                             } else {
-
-                                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                                String uid = currentUser.getUid();
-                                success.child(uid).push().setValue("LOGIN SUCCESSFUL: " + format);
+                                log.child(format).setValue(name + ": login successful");
                                 Intent intent = new Intent(getBaseContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();
