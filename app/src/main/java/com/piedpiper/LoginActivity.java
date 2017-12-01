@@ -85,21 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                                 // this block of code is supposed to sign in to the database anonomously and
                                 // then update the failure child in the logging table with a new row
                                 // however I cannot get this to work for some reason
-                                //TODO: Fix this method to update the logigng table with a failure
-                                auth.signInAnonymously()
-                                        .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Sign in success, update UI with the signed-in user's information
-                                                    failure.child(userName).push().setValue("LOGIN FAILED: " + format);
-                                                    auth.signOut();
-                                                } else {
-                                                    // If sign in fails, display a message to the user.
-                                                    auth.signOut();
-                                                }
-                                            }
-                                        });
+                                failure.child(userName).push().setValue("LOGIN FAILED: " + format);
 
                                 //make an error message if you register with the same email
                                 AlertDialog alertDialog =
