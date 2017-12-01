@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance();
         final DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference();
-        final DatabaseReference log = dataRef.child("log");
+        final DatabaseReference log = dataRef.child("Log");
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
