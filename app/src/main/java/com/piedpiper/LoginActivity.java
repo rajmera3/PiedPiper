@@ -75,6 +75,10 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Email sent.",
                                                 Toast.LENGTH_SHORT).show();
                                         return;
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "This email does not" +
+                                                " exist :(", Toast.LENGTH_SHORT).show();
+                                        return;
                                     }
                                 }
                             });
