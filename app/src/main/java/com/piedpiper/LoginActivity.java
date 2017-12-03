@@ -6,6 +6,7 @@ package com.piedpiper;
         import android.support.annotation.NonNull;
         import android.support.v7.app.AlertDialog;
         import android.support.v7.app.AppCompatActivity;
+        import android.text.InputType;
         import android.view.View;
         import android.widget.Button;
         import android.widget.EditText;
@@ -29,6 +30,7 @@ package com.piedpiper;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
+    private String m_Text = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,55 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
+        Button forgotPasswordButton = findViewById(R.id.forgotPW_button_id);
+        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle("Enter Email");
+                //Set up input
+                final EditText input = new EditText(LoginActivity.this);
+                //specify the type of input expect
+                input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+                builder.setView(input);
+
+                //Set up buttons
+                builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        m_Text = input.getText().toString();
+                        if (m_Text.isEmpty() || m_Text == null) {
+                            Toast.makeText(getApplicationContext(), "Please enter a valid email address.",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else {
+                            auth.sendPasswordResetEmail(m_Text).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(getApplicationContext(), "Email sent.",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "This email does not" +
+                                                " exist :(", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                builder.show();
+            }
+        });
         final Button loginButton = findViewById(R.id.login_button_id);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
