@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 final SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
                 final String format = s.format(new Date());
-                database.child("logging").child("logout").child(auth.getCurrentUser().getUid()).setValue("LOGOUT SUCCESSFUL: " + format);
                 auth.signOut();
                 Intent splash = new Intent(getBaseContext(), SplashScreenActivity.class);
                 startActivity(splash);
