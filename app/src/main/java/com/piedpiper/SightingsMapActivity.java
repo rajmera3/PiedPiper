@@ -94,7 +94,7 @@ public class SightingsMapActivity extends AppCompatActivity implements OnMapRead
                 LatLng location = new LatLng(Double.parseDouble(sighting.getLatitude()),
                         Double.parseDouble(sighting.getLongitude()));
                 googleMap.addMarker(new MarkerOptions().position(location)
-                        .title(sighting.getUniqueKey()));
+                        .title(sighting.getUniqueKey()).snippet(sighting.getCreatedDate()));
             }
         }
 
