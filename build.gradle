@@ -25,6 +25,20 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+//task clean(type: Delete) {
+//    delete rootProject.buildDir
+//}
+
+apply plugin: 'maven'
+
+group = 'com.company.root'
+version = '1.0'
+
+task writeNewPom << {
+    pom {
+        project {
+            inceptionYear '2017'
+        }
+    }.writeTo("pom.xml")
 }
+
